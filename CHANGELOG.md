@@ -1,6 +1,15 @@
 # Changelog — Frankys_Stuff Climate Card
 
-## v0.2.4 — Sprachpaket / Localization — 11.10.2026 (main, noch kein GitHub-Release)
+## v0.2.5 — HACS-Verteilung / HACS Packaging — 11.10.2026 (main, Release ausständig)
+
+- `hacs.json` mit eigenständiger JavaScript-Datei im Repository-Hauptverzeichnis.
+- Automatische HACS-Plugin-Validierung auf GitHub eingerichtet: 8 von 8 Prüfungen bestanden.
+- Repository-Beschreibung, erforderliche Topics, MIT-Lizenz und Vorschau-Screenshots vorhanden.
+- Installationsanleitung für HACS Custom Repository ergänzt, einschließlich Ressourcenpfad und Warnung vor doppelter Einbindung.
+- Climate-Card-Funktion und Steuerlogik unverändert; nur Versionskennung in beiden kompatiblen JS-Dateien auf v0.2.5 gesetzt.
+- Praxistest der HACS-Installation und offizieller GitHub-Release v0.2.5 noch ausständig.
+
+## v0.2.4 — Sprachpaket / Localization — 11.10.2026 (veröffentlicht)
 
 - Die automatische Sprachauswahl orientiert sich weiterhin an Home Assistant, mit manueller Auswahl Deutsch/Englisch.
 - Visueller Karteneditor einschließlich Profilen, Entitätsfeldern, Hilfetexten und Optionen jetzt vollständig deutsch/englisch.
