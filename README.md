@@ -2,6 +2,16 @@
 
 A local Home Assistant Lovelace climate control card with a responsive HUD-style dial, current/target temperatures, operating modes, optional schedule editor, and touch interaction.
 
+## Vorschau / Preview
+
+### Climate Card
+
+![Climate Card mit Temperaturregelung](climate-card-preview.jpeg)
+
+### Visueller Karteneditor / Visual card editor
+
+![Visueller Konfigurationseditor der Climate Card](climate-card-editor.jpeg)
+
 ## Download
 
 [frankys-stuff-climate-card.js](frankys-stuff-climate-card.js) — standalone JavaScript, no other runtime assets required.
