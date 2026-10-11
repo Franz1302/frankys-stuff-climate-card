@@ -5,7 +5,7 @@
 })();
 
 /**
- * Frankys_Stuff Climate Card Standalone v0.2.4 — native HA schedule + stabilized touch dial
+ * Frankys_Stuff Climate Card Standalone v0.2.5 — native HA schedule + stabilized touch dial
  * Reusable 1000x640 climate control for Home Assistant. Keeps legacy custom element IDs.
  */
 const FrankysClimateScheduleEnglishErrors = {
@@ -969,7 +969,7 @@ class JarvisClimateCardLegacy extends HTMLElement {
         ${!(this._hass && this._hass.user && this._hass.user.is_admin) ? '<p>'+this._t("admin")+'</p>' : ""}
         ${this._scheduleError ? `<p class="error" role="alert">${esc(this._scheduleError)}</p>` : ""}
         <div class="actions"><button id="cancel" ${busy ? "disabled" : ""}>${this._t("cancel")}</button><button id="save" class="save" ${busy || !this._scheduleDraft || !(this._hass && this._hass.user && this._hass.user.is_admin) ? "disabled" : ""}>${this._t("save")}</button></div>
-        <div class="version">Frankys_Stuff Climate · v0.2.4</div>
+        <div class="version">Frankys_Stuff Climate · v0.2.5</div>
       </section>`;
     this.shadowRoot.querySelectorAll("input[data-field]").forEach(input => input.addEventListener("input", () => {
       this._scheduleDraft[input.dataset.group][Number(input.dataset.index)][input.dataset.field] = input.value;
