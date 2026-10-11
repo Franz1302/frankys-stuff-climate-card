@@ -1,7 +1,7 @@
-Frankys_Stuff Climate Card Standalone v0.2.3
+Frankys_Stuff Climate Card Standalone v0.2.4
 ================================================
 
-STATUS: v0.2.3 vom Herausgeber in HA getestet; öffentliches GitHub-Repository eingerichtet
+STATUS: main-Zweig v0.2.4 (Deutsch/Englisch erweitert); letzter GitHub-Release v0.2.3
 Lizenz: MIT — Copyright (c) 2026 Frankys_Stuff.
 Die Software-Lizenz befindet sich in LICENSE.
 Keine gesondert lizenzierten Wetterbilder enthalten.
@@ -15,7 +15,9 @@ Tests: QA_REPORT.md
 Release-Stand: RELEASE_STATUS.md
 Kompatibilitätsdatei: jarvis-climate-card-legacy.js
 
-Neu in v0.2.3: 24h-Recorder-Temperaturkurve, optionale Nur-Lese-Entität
-heating_status_entity für gemessenen Heizstatus, aktualisierte Temperaturanzeige.
+Neu in v0.2.4: integrierte deutsche/englische Übersetzungen für Karteneditor,
+Hilfetexte und Heizplanmeldungen mit automatischer HA-Spracherkennung.
+Seit v0.2.3: 24h-Recorder-Temperaturverlauf und read-only Heizstatus.
+Sprachdateien oder zusätzliche Ressourcen sind nicht erforderlich.
 Keine fest hinterlegten privaten Geräteentitäten im Release.
 Die aktive HA-Karte wurde bei der Erstellung dieses Release-Pakets nicht verändert.
