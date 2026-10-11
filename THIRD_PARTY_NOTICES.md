@@ -1,6 +1,6 @@
 # Third-party notices / Hinweise zu Fremdkomponenten
 
-Frankys_Stuff Climate Card v0.2.4 works with the Home Assistant Lovelace frontend and uses Home Assistant's own `hass`, custom-element and WebSocket interfaces at runtime.
+Frankys_Stuff Climate Card v0.2.5 works with the Home Assistant Lovelace frontend and uses Home Assistant's own `hass`, custom-element and WebSocket interfaces at runtime.
 
 - **No external CDN, third-party JavaScript bundle, remote asset, font or imagery** is distributed with the card.
 - The card itself contains no direct `fetch()` or `XMLHttpRequest` calls to external APIs; HA service calls, schedule API requests and 24-hour temperature history retrieval use the existing authenticated Home Assistant WebSocket session.
