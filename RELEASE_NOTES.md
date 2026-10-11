@@ -1,27 +1,29 @@
-# Frankys_Stuff Climate Card v0.2.4 — language update (main branch)
+# Frankys_Stuff Climate Card v0.2.5 — HACS support
 
-German/English localization update to the Frankys_Stuff Climate Card for Home Assistant, building on v0.2.3.
+HACS-ready packaging release for the Frankys_Stuff Climate Card, building on the released v0.2.4 with its integrated German/English language system.
 
-## New in v0.2.4
-- Visual card editor now uses German or English for fields, profiles and guidance.
-- Known heating schedule errors have German and English messages.
-- Choose `language: auto` to follow Home Assistant, or `language: de` / `language: en` to override it.
-- All translations remain embedded in the same JavaScript; heating controls, 24-hour trend and visual layout remain unchanged.
+## What's new
+- Added `hacs.json` for the Dashboard/plugin category.
+- Added automated HACS validation; the initial repository checks passed 8/8.
+- Repository description, HACS topics and README screenshots are configured.
+- Documented HACS installation as a custom Dashboard repository.
+- Kept the standalone JavaScript and MIT licensing; **card behavior, heating controls, dial, temperature trend, schedule editor and translations are unchanged**.
 
-## Features retained from v0.2.3
-- Responsive dark HUD-style climate dial with touch controls
-- Live current temperature and target setpoint
-- **24-hour Recorder-backed temperature history** that survives page reloads
-- Optional read-only measured heating activity via `heating_status_entity` (`binary_sensor`)
-- Thermostat, heat-pump and advanced profiles
-- OFF / AUTO / MANUAL modes and optional Home Assistant heating schedule
-- Visual card editor, German/English interface and legacy card aliases
-- No external JavaScript dependencies or separately required assets
+## HACS installation
+1. In Home Assistant open **HACS → Custom repositories**.
+2. Add `https://github.com/Franz1302/frankys-stuff-climate-card` with the category **Dashboard**.
+3. Install **Frankys_Stuff Climate Card** and check that the dashboard resource points to:
+   `/hacsfiles/frankys-stuff-climate-card/frankys-stuff-climate-card.js`
+4. Add `custom:frankys-stuff-climate-card` to your dashboard.
 
-## Installation
-Copy `frankys-stuff-climate-card.js` to Home Assistant's `/config/www/` directory, register it as a JavaScript module in **Dashboards → Resources**, then add `custom:frankys-stuff-climate-card`. See [README.md](https://github.com/Franz1302/frankys-stuff-climate-card#readme) for exact instructions and examples.
+If you previously installed the standalone script through `/local/`, **do not load both scripts simultaneously**. Keep your existing manual installation unchanged until the HACS variant has been tested.
+
+## Limitations
+- Full HACS installation on an independent Home Assistant instance has not yet been verified.
+- The repository is not yet included in the official HACS default catalogue; use **Custom repositories**.
+- Follow the electrical safety guidance in the [README](https://github.com/Franz1302/frankys-stuff-climate-card#readme).
 
 ## License
-MIT License for JavaScript and documentation. No separate artwork bundled.
+MIT License. No separately licensed artwork is included.
 
 ☕ Voluntary support: https://ko-fi.com/Frankys_Stuff
