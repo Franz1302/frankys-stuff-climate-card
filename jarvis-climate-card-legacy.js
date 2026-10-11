@@ -5,9 +5,30 @@
 })();
 
 /**
- * Frankys_Stuff Climate Card Standalone v0.2.3 — native HA schedule + stabilized touch dial
+ * Frankys_Stuff Climate Card Standalone v0.2.4 — native HA schedule + stabilized touch dial
  * Reusable 1000x640 climate control for Home Assistant. Keeps legacy custom element IDs.
  */
+const FrankysClimateScheduleEnglishErrors = {
+  "Für beide Tagesgruppen mindestens einen Beginn eintragen.": "Enter at least one start time for both day groups.",
+  "Bitte eine gültige Beginnzeit eingeben.": "Enter a valid start time.",
+  "Temperatur: 5–30 °C in Schritten von 0,5 °C.": "Temperature: 5–30 °C in increments of 0.5 °C.",
+  "Beginnzeiten dürfen nicht doppelt vorkommen.": "Duplicate start times are not allowed.",
+  "Der vorhandene Plan enthält Zeitlücken. Er wurde nicht verändert; dieser Editor benötigt einen durchgehenden Wochenplan.": "The existing schedule contains gaps. It has not been changed; this editor requires a continuous weekly schedule.",
+  "Der vorhandene Plan hat unterschiedliche Einzeltage. Er bleibt unverändert; unterstützt werden Mo–Fr und Sa–So.": "The existing schedule has different individual weekdays. It remains unchanged; Monday–Friday and Saturday–Sunday groups are supported.",
+  "Der ausgewählte Heizplan wurde nicht gefunden.": "The selected heating schedule was not found.",
+  "Der ausgewählte Heizplan ist nicht über die HA-Oberfläche bearbeitbar.": "The selected heating schedule cannot be edited through the Home Assistant interface.",
+  "Mehrere Heizpläne sind dieser Climate-Entität zugeordnet. Es wurde nichts geändert.": "Several schedules are associated with this climate entity. Nothing was changed.",
+  "Dieser Heizplan gehört zu einer anderen Climate-Entität.": "This heating schedule belongs to another climate entity.",
+  "Der bestehende Plan enthält zusätzliche Daten und bleibt unverändert.": "The existing schedule contains additional data and has not been changed.",
+  "Bitte eine vorhandene Climate-Entität auswählen.": "Select an existing climate entity.",
+  "Der Heizplan wurde inzwischen geändert. Bitte abbrechen und erneut öffnen.": "The schedule has changed in the meantime. Cancel and reopen it.",
+  "Speichern wurde gesendet, aber nicht eindeutig bestätigt. Bitte neu öffnen; nicht mehrfach speichern.": "Save was sent but could not be verified. Reopen it; do not save repeatedly.",
+  "Dieser Heizplan wird gerade in einer anderen Karte gespeichert.": "This heating schedule is being saved in another card.",
+  "Zum Speichern des Heizplans ist ein HA-Administratorkonto erforderlich.": "A Home Assistant administrator account is required to save the schedule.",
+  "Heizplan konnte nicht geladen werden.": "Could not load the heating schedule.",
+  "Heizplan konnte nicht gespeichert werden. Bitte neu öffnen und prüfen.": "Could not save the heating schedule. Reopen it and check."
+};
+
 class JarvisClimateCardLegacy extends HTMLElement {
   static getStubConfig() {
     return {
@@ -112,6 +133,14 @@ class JarvisClimateCardLegacy extends HTMLElement {
     };
     const d = table[this._lang()] || table.en;
     return d[key] || key;
+  }
+  _localizedScheduleError(message) {
+    if (this._lang() !== "en") return message;
+    if (FrankysClimateScheduleEnglishErrors[message])
+      return FrankysClimateScheduleEnglishErrors[message];
+    const match = /^Die Kartenkonfiguration passt nicht zur vorhandenen (target_entity|mode_entity)-Zuordnung\.$/.exec(message);
+    if (match) return "Card configuration does not match the existing " + match[1] + " association.";
+    return message;
   }
   _modeDisplay(mode) {
     return mode === "AUS" ? this._t("off") : mode === "AUTO" ? this._t("auto") : mode === "MANUELL" ? this._t("manual") : mode;
@@ -851,7 +880,7 @@ class JarvisClimateCardLegacy extends HTMLElement {
         weekday: [{time: "06:00", temperature: 21}, {time: "22:00", temperature: 18}],
         weekend: [{time: "08:00", temperature: 21}, {time: "22:00", temperature: 18}]
       };
-    } catch (e) { this._scheduleError = e.message || "Heizplan konnte nicht geladen werden."; }
+    } catch (e) { this._scheduleError = this._localizedScheduleError(e.message || "Heizplan konnte nicht geladen werden."); }
     this._scheduleBusy = false;
     if (this._scheduleOpen) this._renderSchedule();
   }
@@ -904,7 +933,7 @@ class JarvisClimateCardLegacy extends HTMLElement {
       this._scheduleOpen = false;
       this._scheduleDraft = null;
       this._render();
-    } catch (e) { this._scheduleError = e.message || "Heizplan konnte nicht gespeichert werden. Bitte neu öffnen und prüfen."; }
+    } catch (e) { this._scheduleError = this._localizedScheduleError(e.message || "Heizplan konnte nicht gespeichert werden. Bitte neu öffnen und prüfen."); }
     finally {
       this._scheduleBusy = false;
       if (this._scheduleOpen) this._renderSchedule();
@@ -932,15 +961,15 @@ class JarvisClimateCardLegacy extends HTMLElement {
         <p>${this._t("planIntro")}</p>
         ${this._scheduleDraft ? `<div class="groups">${[["weekday", this._t("weekday")], ["weekend", this._t("weekend")]].map(([key, title]) => `
           <section><h3>${title}</h3>${this._scheduleDraft[key].map((r, i) => `
-            <div class="row"><label>${this._t("start")}<input type="time" step="60" aria-label="${title} Beginn ${i+1}" data-group="${key}" data-index="${i}" data-field="time" value="${esc(r.time)}" ${busy ? "disabled" : ""}></label>
-            <label>${this._t("temperature")}<input type="number" min="5" max="30" step="0.5" aria-label="${title} Temperatur ${i+1}" data-group="${key}" data-index="${i}" data-field="temperature" value="${esc(r.temperature)}" ${busy ? "disabled" : ""}></label>
-            <button class="remove" aria-label="${title} Eintrag ${i+1} entfernen" data-remove="${key}" data-index="${i}" ${busy || this._scheduleDraft[key].length === 1 ? "disabled" : ""}>×</button></div>`).join("")}
+            <div class="row"><label>${this._t("start")}<input type="time" step="60" aria-label="${title} ${this._t("start")} ${i+1}" data-group="${key}" data-index="${i}" data-field="time" value="${esc(r.time)}" ${busy ? "disabled" : ""}></label>
+            <label>${this._t("temperature")}<input type="number" min="5" max="30" step="0.5" aria-label="${title} ${this._t("temperature")} ${i+1}" data-group="${key}" data-index="${i}" data-field="temperature" value="${esc(r.temperature)}" ${busy ? "disabled" : ""}></label>
+            <button class="remove" aria-label="${title} ${this._t("remove")} ${i+1}" data-remove="${key}" data-index="${i}" ${busy || this._scheduleDraft[key].length === 1 ? "disabled" : ""}>×</button></div>`).join("")}
             <button data-add="${key}" ${busy ? "disabled" : ""}>${this._t("addStart")}</button></section>`).join("")}</div>` : ""}
         ${busy ? '<p role="status">'+this._t("loading")+'</p>' : ""}
         ${!(this._hass && this._hass.user && this._hass.user.is_admin) ? '<p>'+this._t("admin")+'</p>' : ""}
         ${this._scheduleError ? `<p class="error" role="alert">${esc(this._scheduleError)}</p>` : ""}
         <div class="actions"><button id="cancel" ${busy ? "disabled" : ""}>${this._t("cancel")}</button><button id="save" class="save" ${busy || !this._scheduleDraft || !(this._hass && this._hass.user && this._hass.user.is_admin) ? "disabled" : ""}>${this._t("save")}</button></div>
-        <div class="version">Frankys_Stuff Climate · v0.2.3</div>
+        <div class="version">Frankys_Stuff Climate · v0.2.4</div>
       </section>`;
     this.shadowRoot.querySelectorAll("input[data-field]").forEach(input => input.addEventListener("input", () => {
       this._scheduleDraft[input.dataset.group][Number(input.dataset.index)][input.dataset.field] = input.value;
@@ -1153,12 +1182,52 @@ class JarvisClimateCardLegacy extends HTMLElement {
 JarvisClimateCardLegacy._days = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
 JarvisClimateCardLegacy._locks = new Map();
 
+const FrankysClimateEditorEnglish = {
+  "Anzeigename": "Display name",
+  "z. B. Schlafzimmer": "e.g. Bedroom",
+  "Sprache / Language": "Language",
+  "Deutsch": "German",
+  "English": "English",
+  "Profil": "Profile",
+  "Climate / Wärmepumpe": "Climate / Heat pump",
+  "Thermostat / Heizung": "Thermostat / Heating",
+  "Erweitert (Helper / Scripts)": "Advanced (helpers / scripts)",
+  "Climate-Entität für Ist / Soll": "Climate entity for current / target",
+  "Climate-Entität für Steuerung": "Climate entity for control",
+  "Manuell-Helper (optional)": "Manual helper (optional)",
+  "Für Geräte mit eigener Climate-Regelung. Bestehende Energie- oder PV-Automationen bleiben unverändert.": "For devices with their own climate control. Existing energy and solar automations remain unchanged.",
+  "Thermostat-Climate (Pflicht)": "Thermostat climate entity (required)",
+  "Heizgerät / Switch (optional für MANUELL)": "Heating device / switch (optional for MANUAL)",
+  "Heizstatus / Binärsensor (optional, nur Anzeige)": "Heating activity / binary sensor (optional, display only)",
+  "Climate auswählen und Karte speichern. Über das Uhrsymbol Zeiten und Temperaturen festlegen; der Heizplan wird automatisch angelegt. Der optionale Switch dient der manuellen Bedienung.": "Select a climate entity and save the card. Use the clock icon to set times and temperatures; the heating schedule is created automatically. The optional switch provides manual control.",
+  "Climate-Entität (optional)": "Climate entity (optional)",
+  "Climate-Steuerentität (optional)": "Climate control entity (optional)",
+  "Temperatursensor (optional)": "Temperature sensor (optional)",
+  "Sollwert-Helper (optional)": "Target temperature helper (optional)",
+  "Modus-Helper (optional)": "Mode helper (optional)",
+  "Heizgerät / Switch (optional)": "Heating device / switch (optional)",
+  "AUS-Script (optional)": "OFF script (optional)",
+  "MANUELL-Script (optional)": "MANUAL script (optional)",
+  "AUTO-Heizplan (optional)": "AUTO heating schedule (optional)",
+  "Optional: separate Helper, Schalter und Skripte für individuelle Heizungssteuerungen.": "Optional separate helpers, switches, and scripts for custom heating systems.",
+  "Min. Temperatur (leer = Gerät)": "Minimum temperature (blank = device)",
+  "Max. Temperatur (leer = Gerät)": "Maximum temperature (blank = device)",
+  "Schrittweite (leer = Gerät)": "Temperature step (blank = device)"
+};
+
 class JarvisClimateCardLegacyEditor extends HTMLElement {
   constructor() {
     super();
     this.attachShadow({ mode: "open" });
     this._rendered = false;
   }
+
+  _lang() {
+    let lang = String((this._config && this._config.language) || "auto").toLowerCase();
+    if (lang === "auto") lang = String((this._hass && this._hass.locale && this._hass.locale.language) || (this._hass && this._hass.language) || "en").toLowerCase();
+    return lang.split("-")[0].split("_")[0] === "de" ? "de" : "en";
+  }
+  _t(label) { return this._lang() === "de" ? label : (FrankysClimateEditorEnglish[label] || label); }
 
   set hass(hass) {
     const previous = this._hass;
@@ -1171,6 +1240,11 @@ class JarvisClimateCardLegacyEditor extends HTMLElement {
       if (this._config) this._render();
       return;
     }
+    const localeChanged = !!previous && this._config &&
+      !["de", "en"].includes(this._config.language) &&
+      ((previous.locale && previous.locale.language) || previous.language || "") !==
+      ((hass.locale && hass.locale.language) || hass.language || "");
+    if (localeChanged) { this._render(); return; }
     if (previous &&
         previous.entities === hass.entities &&
         previous.config === hass.config &&
@@ -1183,9 +1257,10 @@ class JarvisClimateCardLegacyEditor extends HTMLElement {
 
   setConfig(config) {
     const previousProfile = this._config ? this._config.profile : undefined;
+    const previousLanguage = this._config ? this._config.language : undefined;
     this._config = { ...config };
 
-    if (!this._rendered || previousProfile !== this._config.profile) {
+    if (!this._rendered || previousProfile !== this._config.profile || previousLanguage !== this._config.language) {
       this._render();
     }
   }
@@ -1201,7 +1276,7 @@ class JarvisClimateCardLegacyEditor extends HTMLElement {
       composed: true
     }));
 
-    if (key === "profile") {
+    if (key === "profile" || key === "language") {
       this._rendered = false;
       this._render();
     }
@@ -1317,20 +1392,20 @@ class JarvisClimateCardLegacyEditor extends HTMLElement {
         <div id="nameField"></div>
 
         <label class="field">
-          <div class="label">Sprache / Language</div>
+          <div class="label">${this._t("Sprache / Language")}</div>
           <select id="language">
             <option value="auto">Auto / Home Assistant</option>
-            <option value="de">Deutsch</option>
-            <option value="en">English</option>
+            <option value="de">${this._t("Deutsch")}</option>
+            <option value="en">${this._t("English")}</option>
           </select>
         </label>
 
         <label class="field">
-          <div class="label">Profil</div>
+          <div class="label">${this._t("Profil")}</div>
           <select id="profile">
-            <option value="pool_heatpump">Climate / Wärmepumpe</option>
-            <option value="thermostat">Thermostat / Heizung</option>
-            <option value="advanced">Erweitert (Helper / Scripts)</option>
+            <option value="pool_heatpump">${this._t("Climate / Wärmepumpe")}</option>
+            <option value="thermostat">${this._t("Thermostat / Heizung")}</option>
+            <option value="advanced">${this._t("Erweitert (Helper / Scripts)")}</option>
           </select>
         </label>
 
@@ -1344,8 +1419,8 @@ class JarvisClimateCardLegacyEditor extends HTMLElement {
 
     this.shadowRoot
       .querySelector("#nameField")
-      .appendChild(this._nativeInput("Anzeigename", "name", "text", {
-        placeholder: "z. B. Schlafzimmer"
+      .appendChild(this._nativeInput(this._t("Anzeigename"), "name", "text", {
+        placeholder: this._t("z. B. Schlafzimmer")
       }));
 
     const languageSelect = this.shadowRoot.querySelector("#language");
@@ -1366,105 +1441,105 @@ class JarvisClimateCardLegacyEditor extends HTMLElement {
 
     if (profile === "pool_heatpump") {
       add(this._picker(
-        "Climate-Entität für Ist / Soll",
+        this._t("Climate-Entität für Ist / Soll"),
         "display_entity",
         ["climate"]
       ));
 
       add(this._picker(
-        "Climate-Entität für Steuerung",
+        this._t("Climate-Entität für Steuerung"),
         "control_entity",
         ["climate"]
       ));
 
       add(this._picker(
-        "Manuell-Helper (optional)",
+        this._t("Manuell-Helper (optional)"),
         "manual_entity",
         ["input_boolean"]
       ));
 
       this.shadowRoot.querySelector("#hint").textContent =
-        "Für Geräte mit eigener Climate-Regelung. Bestehende Energie- oder PV-Automationen bleiben unverändert.";
+        this._t("Für Geräte mit eigener Climate-Regelung. Bestehende Energie- oder PV-Automationen bleiben unverändert.");
 
     } else if (profile === "thermostat") {
       add(this._picker(
-        "Thermostat-Climate (Pflicht)",
+        this._t("Thermostat-Climate (Pflicht)"),
         "display_entity",
         ["climate"]
       ));
 
       add(this._picker(
-        "Heizgerät / Switch (optional für MANUELL)",
+        this._t("Heizgerät / Switch (optional für MANUELL)"),
         "heater_entity",
         ["switch"]
       ));
 
       add(this._picker(
-        "Heizstatus / Binärsensor (optional, nur Anzeige)",
+        this._t("Heizstatus / Binärsensor (optional, nur Anzeige)"),
         "heating_status_entity",
         ["binary_sensor"]
       ));
 
       this.shadowRoot.querySelector("#hint").textContent =
-        "Climate auswählen und Karte speichern. Über das Uhrsymbol Zeiten und Temperaturen festlegen; der Heizplan wird automatisch angelegt. Der optionale Switch dient der manuellen Bedienung.";
+        this._t("Climate auswählen und Karte speichern. Über das Uhrsymbol Zeiten und Temperaturen festlegen; der Heizplan wird automatisch angelegt. Der optionale Switch dient der manuellen Bedienung.");
 
     } else {
       add(this._picker(
-        "Climate-Entität (optional)",
+        this._t("Climate-Entität (optional)"),
         "display_entity",
         ["climate"]
       ));
 
       add(this._picker(
-        "Climate-Steuerentität (optional)",
+        this._t("Climate-Steuerentität (optional)"),
         "control_entity",
         ["climate"]
       ));
 
       add(this._picker(
-        "Temperatursensor (optional)",
+        this._t("Temperatursensor (optional)"),
         "temperature_entity",
         ["sensor"]
       ));
 
       add(this._picker(
-        "Sollwert-Helper (optional)",
+        this._t("Sollwert-Helper (optional)"),
         "target_entity",
         ["input_number", "number"]
       ));
 
       add(this._picker(
-        "Modus-Helper (optional)",
+        this._t("Modus-Helper (optional)"),
         "mode_entity",
         ["input_select", "select"]
       ));
 
       add(this._picker(
-        "Heizgerät / Switch (optional)",
+        this._t("Heizgerät / Switch (optional)"),
         "heater_entity",
         ["switch"]
       ));
 
       add(this._picker(
-        "AUS-Script (optional)",
+        this._t("AUS-Script (optional)"),
         "off_script",
         ["script"]
       ));
 
       add(this._picker(
-        "MANUELL-Script (optional)",
+        this._t("MANUELL-Script (optional)"),
         "manual_script",
         ["script"]
       ));
 
       add(this._picker(
-        "AUTO-Heizplan (optional)",
+        this._t("AUTO-Heizplan (optional)"),
         "schedule_entity",
         ["schedule"]
       ));
 
       this.shadowRoot.querySelector("#hint").textContent =
-        "Optional: separate Helper, Schalter und Skripte für individuelle Heizungssteuerungen.";
+        this._t("Optional: separate Helper, Schalter und Skripte für individuelle Heizungssteuerungen.");
     }
 
     const numbers = this.shadowRoot.querySelector("#numbers");
@@ -1472,21 +1547,21 @@ class JarvisClimateCardLegacyEditor extends HTMLElement {
     numbers.style.gap = "16px";
 
     numbers.appendChild(this._nativeInput(
-      "Min. Temperatur (leer = Gerät)",
+      this._t("Min. Temperatur (leer = Gerät)"),
       "min_temp",
       "number",
       { step: "0.5" }
     ));
 
     numbers.appendChild(this._nativeInput(
-      "Max. Temperatur (leer = Gerät)",
+      this._t("Max. Temperatur (leer = Gerät)"),
       "max_temp",
       "number",
       { step: "0.5" }
     ));
 
     numbers.appendChild(this._nativeInput(
-      "Schrittweite (leer = Gerät)",
+      this._t("Schrittweite (leer = Gerät)"),
       "step",
       "number",
       { step: "0.5" }
