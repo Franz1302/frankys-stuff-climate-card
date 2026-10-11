@@ -1,6 +1,16 @@
-# Release status — Frankys_Stuff Climate Card v0.2.4 (main)
+# Release status — Frankys_Stuff Climate Card v0.2.5 (main)
 
-**Stand: 11.10.2026 — main enthält v0.2.4 mit integrierter DE/EN-Übersetzung. Der letzte offizielle GitHub-Release ist weiterhin v0.2.3.**
+**Stand: 11.10.2026 — main enthält v0.2.5 für HACS und die bereits in v0.2.4 veröffentlichte DE/EN-Übersetzung. Der letzte offizielle GitHub-Release ist derzeit v0.2.4.**
+
+## HACS v0.2.5
+- [x] HACS-Manifest `hacs.json` und automatische GitHub-HACS-Validierung eingerichtet.
+- [x] HACS-Repository-Prüfung nach Ergänzung von Beschreibung und Topics: **8 von 8 bestanden**.
+- [x] Installation als benutzerdefiniertes Dashboard-Repository dokumentiert.
+- [x] Vorschau-Screenshots und MIT-Lizenz vorhanden.
+- [x] Versionskennung der beiden identischen JavaScript-Dateien auf v0.2.5 angehoben; sonstige Kartentechnik unverändert.
+- [ ] v0.2.5 **GitHub-Release** samt Tag nach erfolgreicher Prüfung erstellen.
+- [ ] Installation/Update über HACS auf Home Assistant praktisch testen.
+- [ ] Optional: als HACS-Standardrepository einreichen; Katalogaufnahme steht aus.
 
 ## Abgeschlossen
 - [x] Eigenständige JavaScript-Karte, keine zusätzlichen Web-Assets erforderlich.
@@ -39,7 +49,7 @@
 
 ## GitHub-Veröffentlichung
 Das öffentliche Repository ist unter https://github.com/Franz1302/frankys-stuff-climate-card eingerichtet.
-Der aktuelle Hauptzweig enthält v0.2.4; der zuletzt veröffentlichte Tag und GitHub-Release heißt noch v0.2.3.
-Für die öffentliche Freigabe der Sprachversion muss separat ein neuer GitHub-Release mit Tag v0.2.4 angelegt werden.
+Der Hauptzweig enthält v0.2.5 (HACS-Manifest und GitHub Actions inklusive).
+Der zuletzt veröffentlichte GitHub-Tag ist v0.2.4; nach erfolgreicher HACS-Prüfung von main folgt der separate Release v0.2.5.
 
 **Die aktive HA-Karte, ihr Dashboard und ihre Ressourcenzuordnung wurden beim Erstellen des Release-Pakets nicht verändert.**
