@@ -1,7 +1,7 @@
-# QA report — Frankys_Stuff Climate Card v0.2.3
+# QA report — Frankys_Stuff Climate Card v0.2.4 (main)
 
 **Date:** 11 October 2026
-**Basis:** Current active HA JavaScript copied into the canonical release file and identically into the legacy-compatibility filename, with only the release version marker updated.
+**Basis:** v0.2.3 released and user-tested; v0.2.4 modifies built-in German/English localization. Both public JavaScript aliases on main have the v0.2.4 code. Existing heating functionality is retained.
 
 ## Confirmed
 - [x] The custom elements `frankys-stuff-climate-card`, `jarvis-climate-card`, `jarvis-climate-card-legacy` and their editor classes are present.
@@ -21,9 +21,10 @@
 - [x] The publisher confirms the new heating-activity status behaves correctly in their HA installation (11 October 2026).
 - [x] The publisher explicitly accepted the new v0.2.3 functions on 11 October 2026.
 - [ ] Independent tests across Home Assistant versions and browser/device combinations are not available.
-- [ ] Complete DE/EN translation of configuration-editor labels and errors is not finished; current behavior is documented in README.
+- [x] Editor labels, profile options, help texts and known schedule errors have English translations in v0.2.4; simulated German/English language selection and syntax tests passed.
+- [ ] Independent on-device validation of v0.2.4 translations is still pending.
 - [ ] Comprehensive accessibility and threat-model assessments have not been performed.
 - [ ] Home Assistant dashboard **editing** on old Safari/iOS 12 was reported sluggish and occasionally unresponsive; the card's runtime/touch functions worked. PC editing was successful.
-- [ ] Screenshots for public GitHub README may be added later; no fabricated images are included.
+- [x] Screenshots of the card and visual editor are present in the GitHub README.
 
-**Conclusion:** v0.2.3 is packaged, statically reviewed and user-tested in the publisher's HA installation. Independent cross-device testing is not yet available. This does not guarantee operation with every heating system. The user is responsible for appropriate electrical and safety interlocks.
+**Conclusion:** v0.2.3 was user-tested and publicly released. The v0.2.4 localization was checked with JavaScript parsing and simulated editor-language tests, but not yet independently tested on real devices. The v0.2.4 tag/Release has not yet been created. This does not guarantee operation with every heating system. The user is responsible for appropriate electrical and safety interlocks.
