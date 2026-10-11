@@ -1,5 +1,14 @@
 # Changelog — Frankys_Stuff Climate Card
 
+## v0.2.4 — Sprachpaket / Localization — 11.10.2026 (main, noch kein GitHub-Release)
+
+- Die automatische Sprachauswahl orientiert sich weiterhin an Home Assistant, mit manueller Auswahl Deutsch/Englisch.
+- Visueller Karteneditor einschließlich Profilen, Entitätsfeldern, Hilfetexten und Optionen jetzt vollständig deutsch/englisch.
+- Bekannte Fehlermeldungen und Bedienhilfen des Heizplan-Editors übersetzt.
+- Keine separaten Sprachdateien und keine neuen externen Abhängigkeiten; Übersetzungen sind in die Standalone-JavaScript-Datei eingebettet.
+- Bestehende Heizungssteuerung, 24-Stunden-Temperaturkurve und HUD-Layout unverändert; Syntax und Sprachauswahl geprüft.
+- Der bereits veröffentlichte Tag `v0.2.3` bleibt unverändert.
+
 ## v0.2.3 — 11.10.2026
 
 - Veröffentlichung der aktuellen Standalone-Climate-Card mit JARVIS-inspiriertem HUD-Design.
