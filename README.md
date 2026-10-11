@@ -18,9 +18,9 @@ A local Home Assistant Lovelace climate control card with a responsive HUD-style
 
 ☕ [Frankys_Stuff auf Ko-fi unterstützen](https://ko-fi.com/Frankys_Stuff)
 
-This is a **standard manual installation**, as with the Weather Card. HACS is not required.
+**Installation:** Manuell oder über HACS als benutzerdefiniertes Dashboard-Repository (nach einem neuen HACS-kompatiblen Release). Die Karte benötigt weder HACS noch zusätzliche JavaScript-Bibliotheken.
 
-**Current main branch:** v0.2.4 with complete German/English editor localization (syntax and language-switching tests passed). **Latest tagged GitHub release:** [v0.2.3](https://github.com/Franz1302/frankys-stuff-climate-card/releases/tag/v0.2.3). The previous release remains unchanged. **MIT licensed** (see `LICENSE` and `LICENSE_SCOPE.md`).
+**Aktueller Release / Latest release:** [v0.2.4](https://github.com/Franz1302/frankys-stuff-climate-card/releases/tag/v0.2.4). Die HACS-Dateien wurden danach im Hauptzweig ergänzt und gehören noch nicht zum Tag v0.2.4. **Lizenz:** MIT (`LICENSE`, `LICENSE_SCOPE.md`).
 
 **Features**
 - Profiles: `thermostat`, `pool_heatpump`, `advanced`
@@ -40,7 +40,22 @@ This is a **standard manual installation**, as with the Weather Card. HACS is no
 - **Manuelle Auswahl / Manual selection:** `language: de` oder `language: en`.
 - Kartenansicht, visueller Editor, Hinweise und bekannte Heizplan-Fehlermeldungen wechseln mit der gewählten Sprache.
 - **Keine separaten Sprachdateien erforderlich / No separate translation assets required.** Everything is included in the standalone JavaScript.
-- The v0.2.4 localization update has passed JavaScript syntax and translation-unit tests. Additional physical-device acceptance testing is recommended before tagging a new GitHub release.
+- The v0.2.4 localization update passed JavaScript syntax and translation tests; the corresponding GitHub release is published. Separate HACS installation tests are pending.
+
+
+## HACS (benutzerdefiniertes Repository / custom repository)
+
+**Vorbereitung / Preparation:** This GitHub repository now includes `hacs.json` and an automated HACS validator. It is **not yet listed in the public HACS default catalogue**. The tagged release `v0.2.4` predates the HACS manifest; a subsequent release containing this manifest is needed before recommending installation from a tagged version.
+
+1. Öffne **HACS → ⋮ → Benutzerdefinierte Repositories / Custom repositories**.
+2. Füge `https://github.com/Franz1302/frankys-stuff-climate-card` hinzu.
+3. Wähle den Typ **Dashboard** (HACS-Backend-Kategorie: `plugin`) und bestätige.
+4. Nach Veröffentlichung und Prüfung eines HACS-kompatiblen Releases die Karte über HACS herunterladen.
+5. Die JavaScript-Modul-Ressource lautet bei HACS-Installation gewöhnlich:
+   `/hacsfiles/frankys-stuff-climate-card/frankys-stuff-climate-card.js`.
+   Prüfe unter **Einstellungen → Dashboards → Ressourcen**, ob HACS sie bereits eingetragen hat. Nicht doppelt registrieren.
+
+**Existing manual installations / Bestehende manuelle Installationen:** Do not load both the manual `/local/...` JavaScript and the HACS `/hacsfiles/...` JavaScript on the same Home Assistant frontend. Keep the current manual resource unchanged until the HACS release is validated, then switch the resource deliberately. All previous `custom:jarvis-climate-card` aliases remain in the script.
 
 ## English: installation
 
@@ -157,10 +172,10 @@ Die kleine Temperaturkurve zeigt **24 Stunden echte Recorder-Daten** auf einer Z
 
 ## Changelog
 
-**v0.2.4 (2026-10-11, main branch — not yet tagged)**
+**v0.2.4 (2026-10-11, published release)**
 - Completed German/English translation of the visual editor, profile options, hints and known heating schedule validation messages.
 - Auto language follows Home Assistant; manual `de` or `en` override updates the editor without changing heater controls.
-- No extra translation resource. Existing v0.2.3 GitHub tag remains unchanged.
+- No extra translation resource. The existing v0.2.3 GitHub tag remains unchanged.
 
 
 
