@@ -1,8 +1,14 @@
-# Frankys_Stuff Climate Card v0.2.3
+# Frankys_Stuff Climate Card v0.2.4 — language update (main branch)
 
-First public standalone release of the Frankys_Stuff Climate Card for Home Assistant.
+German/English localization update to the Frankys_Stuff Climate Card for Home Assistant. The code is on the main branch; the latest published GitHub Release is still v0.2.3.
 
-## Features
+## New in v0.2.4
+- Visual card editor now uses German or English for fields, profiles and guidance.
+- Known heating schedule errors have German and English messages.
+- Choose `language: auto` to follow Home Assistant, or `language: de` / `language: en` to override it.
+- All translations remain embedded in the same JavaScript; heating controls, 24-hour trend and visual layout remain unchanged.
+
+## Features retained from v0.2.3
 - Responsive dark HUD-style climate dial with touch controls
 - Live current temperature and target setpoint
 - **24-hour Recorder-backed temperature history** that survives page reloads
