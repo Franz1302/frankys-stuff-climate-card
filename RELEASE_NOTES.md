@@ -1,6 +1,6 @@
 # Frankys_Stuff Climate Card v0.2.4 — language update (main branch)
 
-German/English localization update to the Frankys_Stuff Climate Card for Home Assistant. The code is on the main branch; the latest published GitHub Release is still v0.2.3.
+German/English localization update to the Frankys_Stuff Climate Card for Home Assistant, building on v0.2.3.
 
 ## New in v0.2.4
 - Visual card editor now uses German or English for fields, profiles and guidance.
