@@ -1,7 +1,15 @@
-# QA report — Frankys_Stuff Climate Card v0.2.4 (main)
+# QA report — Frankys_Stuff Climate Card v0.2.5 (main)
 
 **Date:** 11 October 2026
-**Basis:** v0.2.3 released and user-tested; v0.2.4 modifies built-in German/English localization. Both public JavaScript aliases on main have the v0.2.4 code. Existing heating functionality is retained.
+**Basis:** v0.2.3 was user-tested; v0.2.4 added DE/EN editor language support and was released. v0.2.5 packages the same card for HACS without modifying its functional logic.
+
+## HACS packaging checks (v0.2.5)
+- [x] HACS plugin manifest `hacs.json` is available at repository root.
+- [x] GitHub Actions HACS validator completed successfully on the HACS configuration: **8/8 checks passed**.
+- [x] MIT license, description, topics and README preview imagery are present.
+- [x] Both JavaScript entrypoints are compatible and use the v0.2.5 version marker.
+- [ ] Independent HACS custom repository install/update test remains pending.
+- [ ] Public GitHub release/tag v0.2.5 remains pending as of the time of preparing the package.
 
 ## Confirmed
 - [x] The custom elements `frankys-stuff-climate-card`, `jarvis-climate-card`, `jarvis-climate-card-legacy` and their editor classes are present.
@@ -27,4 +35,4 @@
 - [ ] Home Assistant dashboard **editing** on old Safari/iOS 12 was reported sluggish and occasionally unresponsive; the card's runtime/touch functions worked. PC editing was successful.
 - [x] Screenshots of the card and visual editor are present in the GitHub README.
 
-**Conclusion:** v0.2.3 was user-tested and publicly released. The v0.2.4 localization was checked with JavaScript parsing and simulated editor-language tests, but not yet independently tested on real devices. The v0.2.4 tag/Release has not yet been created. This does not guarantee operation with every heating system. The user is responsible for appropriate electrical and safety interlocks.
+**Conclusion:** v0.2.4 is a published release; v0.2.5 packages it for HACS. A validation check passed for the HACS configuration, but HACS installation and update have not yet been acceptance-tested. No universal compatibility guarantee is made. This does not guarantee operation with every heating system. The user is responsible for appropriate electrical and safety interlocks.
