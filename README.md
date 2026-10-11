@@ -1,4 +1,4 @@
-# Frankys_Stuff Climate Card — Standalone v0.2.3
+# Frankys_Stuff Climate Card — Standalone v0.2.4 (main branch)
 
 A local Home Assistant Lovelace climate control card with a responsive HUD-style dial, current/target temperatures, operating modes, optional schedule editor, and touch interaction.
 
@@ -20,25 +20,33 @@ A local Home Assistant Lovelace climate control card with a responsive HUD-style
 
 This is a **standard manual installation**, as with the Weather Card. HACS is not required.
 
-**Release status:** v0.2.3 — public release candidate. The publisher confirms the new 24-hour Recorder trend and heating-activity display work in their Home Assistant setup. Static tests pass; independent browser/device validation remains outstanding. **MIT licensed** (see `LICENSE` and `LICENSE_SCOPE.md`).
+**Current main branch:** v0.2.4 with complete German/English editor localization (syntax and language-switching tests passed). **Latest tagged GitHub release:** [v0.2.3](https://github.com/Franz1302/frankys-stuff-climate-card/releases/tag/v0.2.3). The previous release remains unchanged. **MIT licensed** (see `LICENSE` and `LICENSE_SCOPE.md`).
 
 **Features**
 - Profiles: `thermostat`, `pool_heatpump`, `advanced`
 - Target temperature via touch/click on the circular dial, drag, or +/- buttons
 - Operating modes OFF / AUTO / MANUAL, depending on the configured profile
 - Optional Home Assistant schedule editor for weekday (Mon–Fri) and weekend (Sat–Sun) blocks
-- German and English card labels, automatic language selection
+- Complete German/English labels for both the card and its visual editor, automatic Home Assistant language selection or manual override
 - Local implementation: no CDN, separate assets, cloud service, API key, external fonts, or third-party JavaScript library
 - HA GUI card editor; old `jarvis-*` element aliases remain for compatibility
 - **24-hour temperature trend** in the original current-temperature panel, with time-proportional positions. Loads real Home Assistant Recorder values after reload, syncs history at most once per 15 minutes, and does not invent values for unavailable intervals.
 - Optional **read-only** `heating_status_entity` (`binary_sensor`) for a measured heating state in thermostat mode. Display-only: it is not a switch and receives no service calls.
 - Current temperature scale and subtle line-graph refinements from the active card; existing touchscreen dial, modes and schedule controls retained.
 
+## Sprache / Language
+
+- **Automatisch / Automatic (`language: auto`):** Nutzt die Home-Assistant-Sprache (`de` → Deutsch, `en` → English; andere Sprachen → English).
+- **Manuelle Auswahl / Manual selection:** `language: de` oder `language: en`.
+- Kartenansicht, visueller Editor, Hinweise und bekannte Heizplan-Fehlermeldungen wechseln mit der gewählten Sprache.
+- **Keine separaten Sprachdateien erforderlich / No separate translation assets required.** Everything is included in the standalone JavaScript.
+- The v0.2.4 localization update has passed JavaScript syntax and translation-unit tests. Additional physical-device acceptance testing is recommended before tagging a new GitHub release.
+
 ## English: installation
 
 1. Copy **`frankys-stuff-climate-card.js`** to `/config/www/frankys-stuff/climate/` on your Home Assistant installation. Create these folders if necessary.
 2. In Home Assistant, open **Settings → Dashboards → Resources** (the exact UI position may vary by version). Add:
-   - **URL:** `/local/frankys-stuff/climate/frankys-stuff-climate-card.js?v=0.2.3`
+   - **URL:** `/local/frankys-stuff/climate/frankys-stuff-climate-card.js?v=0.2.4`
    - **Type:** `JavaScript module` (`module`)
 3. Reload the browser. Add a new card using the visual editor or this YAML:
 
@@ -82,7 +90,7 @@ Optional profile-specific configuration keys: `language` (`auto`, `de`, `en`), `
 - With the optional measured state configured: `on` → **ACTIVE**, `off` → **READY** (while climate remains enabled) or **OFF** (when climate is off), `unavailable`/`unknown` → **UNAVAILABLE**. Without a configured heating status, the previous visual status logic is retained.
 - The 24-hour graph requires Home Assistant's **Recorder** to retain the source entity and a working Lovelace History WebSocket API. If Recorder is disabled/excludes the source, only readings observed while the card is open can be shown; reloading never generates fake readings.
 - Editing/saving schedules requires an administrator account. The built-in editor expects continuous weekday/weekend time blocks, with 5–30 °C setpoints at 0.5 °C intervals. Other schedules may be intentionally refused rather than overwritten.
-- Card labels support German and English; several **configuration editor** field labels and error messages remain in German.
+- Card and visual configuration editor support German and English, including explanatory hints and known schedule validation messages. Selection via `language: auto`, `de`, or `en`; unsupported HA locales fall back to English.
 - Old Safari/iOS browsers may operate the card but struggle with the general Home Assistant dashboard edit interface. Configure the card in a modern desktop browser if necessary.
 - Time formatting prefers the time zone configured in Home Assistant; when unavailable, this version falls back to `Europe/Vienna`.
 - Custom element aliases `custom:jarvis-climate-card` and `custom:jarvis-climate-card-legacy` are included only to support existing setups. For new installations use `custom:frankys-stuff-climate-card`.
@@ -92,7 +100,7 @@ Optional profile-specific configuration keys: `language` (`auto`, `de`, `en`), `
 
 1. Die Datei **`frankys-stuff-climate-card.js`** nach `/config/www/frankys-stuff/climate/` kopieren (Ordner bei Bedarf anlegen).
 2. In Home Assistant unter **Einstellungen → Dashboards → Ressourcen** folgende Ressource registrieren:
-   - **URL:** `/local/frankys-stuff/climate/frankys-stuff-climate-card.js?v=0.2.3`
+   - **URL:** `/local/frankys-stuff/climate/frankys-stuff-climate-card.js?v=0.2.4`
    - **Typ:** `JavaScript-Modul` (`module`)
 3. Browser neu laden und diese Karte hinzufügen:
 
@@ -148,6 +156,13 @@ Die kleine Temperaturkurve zeigt **24 Stunden echte Recorder-Daten** auf einer Z
 **Copyright (c) 2026 Frankys_Stuff.** See `QA_REPORT.md` and `RELEASE_STATUS.md` for the reviewed release scope and limitations.
 
 ## Changelog
+
+**v0.2.4 (2026-10-11, main branch — not yet tagged)**
+- Completed German/English translation of the visual editor, profile options, hints and known heating schedule validation messages.
+- Auto language follows Home Assistant; manual `de` or `en` override updates the editor without changing heater controls.
+- No extra translation resource. Existing v0.2.3 GitHub tag remains unchanged.
+
+
 
 **v0.2.3 (2026-10-11)**
 - Übernahme der aktuellen grafischen Temperatur-/Skalenverbesserungen in die öffentliche Standalone-Datei.
