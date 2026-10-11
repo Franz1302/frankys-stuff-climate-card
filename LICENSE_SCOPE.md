@@ -1,6 +1,6 @@
 # Lizenzumfang / Scope of licensing
 
-**Frankys_Stuff Climate Card Standalone v0.2.3**
+**Frankys_Stuff Climate Card Standalone v0.2.4 (main)**
 
 - **JavaScript, markup, styles and project documentation:** MIT License (`LICENSE`).
 - **Built-in imagery:** This release does not ship separately licensed image files, Base64 artworks, icon bundles or videos; therefore no additional CC BY-NC 4.0 artwork license applies.
