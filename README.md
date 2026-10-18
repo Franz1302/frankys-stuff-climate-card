@@ -1,5 +1,14 @@
 # Frankys_Stuff Climate Card — Standalone v0.2.5 (HACS ready)
 
+<p align="center">
+  <a href="https://ko-fi.com/Frankys_Stuff">
+    <img src="https://img.shields.io/badge/THANKS%20FOR%20THE%20COFFEE!-Support%20Frankys__Stuff-FF5E5B?style=for-the-badge&logo=ko-fi&logoColor=white" alt="Thanks for the coffee! Support Frankys_Stuff on Ko-fi">
+  </a>
+</p>
+
+[![HACS Custom Repository](https://img.shields.io/badge/HACS-Custom%20Repository-00AEEF?style=flat-square)](https://hacs.xyz/docs/faq/custom_repositories/)
+
+
 A local Home Assistant Lovelace climate control card with a responsive HUD-style dial, current/target temperatures, operating modes, optional schedule editor, and touch interaction.
 
 ## Vorschau / Preview
@@ -15,8 +24,6 @@ A local Home Assistant Lovelace climate control card with a responsive HUD-style
 ## Download
 
 [frankys-stuff-climate-card.js](frankys-stuff-climate-card.js) — standalone JavaScript, no other runtime assets required.
-
-☕ [Frankys_Stuff auf Ko-fi unterstützen](https://ko-fi.com/Frankys_Stuff)
 
 **Installation:** Manuell oder über HACS als benutzerdefiniertes Dashboard-Repository. Die Karte benötigt keine zusätzlichen JavaScript-Bibliotheken.
 
@@ -40,12 +47,12 @@ A local Home Assistant Lovelace climate control card with a responsive HUD-style
 - **Manuelle Auswahl / Manual selection:** `language: de` oder `language: en`.
 - Kartenansicht, visueller Editor, Hinweise und bekannte Heizplan-Fehlermeldungen wechseln mit der gewählten Sprache.
 - **Keine separaten Sprachdateien erforderlich / No separate translation assets required.** Everything is included in the standalone JavaScript.
-- The v0.2.4 translation release passed syntax and language-switching tests. The subsequent v0.2.5 packaging adds HACS support; a physical-device HACS installation test is still pending.
+- The v0.2.4 translation release passed syntax and language-switching tests. Version v0.2.5 adds HACS support; the HACS-managed resource has been observed in a Home Assistant installation, without an additional full functional test.
 
 
 ## HACS (benutzerdefiniertes Repository / custom repository)
 
-**Status:** The repository includes `hacs.json` and a passing automated HACS validation (8/8 checks). The code and manifest for v0.2.5 are in `main`, and the v0.2.5 GitHub release is published. A real Home Assistant HACS installation test is still pending. **This card is not yet listed in the official HACS catalogue.**
+**Status (2026-10-18):** The repository includes `hacs.json` and a passing automated HACS validation (8/8 checks). Release **v0.2.5** is published, and the HACS-managed JavaScript resource is registered in Home Assistant. A separate end-to-end functional installation test has not been documented. **This card is not listed in the official HACS catalogue**; add it as a custom Dashboard repository.
 
 1. Öffne **HACS → ⋮ → Benutzerdefinierte Repositories / Custom repositories**.
 2. Füge `https://github.com/Franz1302/frankys-stuff-climate-card` hinzu.
@@ -55,7 +62,7 @@ A local Home Assistant Lovelace climate control card with a responsive HUD-style
    `/hacsfiles/frankys-stuff-climate-card/frankys-stuff-climate-card.js`.
    Prüfe unter **Einstellungen → Dashboards → Ressourcen**, ob HACS sie bereits eingetragen hat. Nicht doppelt registrieren.
 
-**Existing manual installations / Bestehende manuelle Installationen:** Do not load both the manual `/local/...` JavaScript and the HACS `/hacsfiles/...` JavaScript on the same Home Assistant frontend. Keep the current manual resource unchanged until the HACS release is validated, then switch the resource deliberately. All previous `custom:jarvis-climate-card` aliases remain in the script.
+**Existing manual installations / Bestehende manuelle Installationen:** Do not load both the manual `/local/...` JavaScript and the HACS `/hacsfiles/...` JavaScript on the same Home Assistant frontend. Keep an existing working manual resource unchanged unless you intentionally migrate to HACS, then switch resource registrations carefully. All previous `custom:jarvis-climate-card` aliases remain in the script.
 
 ## English: installation
 
@@ -172,11 +179,11 @@ Die kleine Temperaturkurve zeigt **24 Stunden echte Recorder-Daten** auf einer Z
 
 ## Changelog
 
-**v0.2.5 (2026-10-11, HACS package on main; release pending)**
+**v0.2.5 (2026-10-11, HACS release published)**
 - HACS plugin manifest `hacs.json` and automatic validation workflow available.
 - GitHub description, HACS topics and screenshots configured; automated HACS validation passed 8/8 checks before packaging.
 - JavaScript card code unchanged except version marker, including the DE/EN translation system and control behavior.
-- Requires a new GitHub release including the HACS manifest and a subsequent HACS installation test.
+- GitHub v0.2.5 release published; HACS-managed frontend resource has since been verified as registered in Home Assistant.
 
 **v0.2.4 (2026-10-11, published release)**
 - Completed German/English translation of the visual editor, profile options, hints and known heating schedule validation messages.
