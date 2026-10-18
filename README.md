@@ -18,9 +18,9 @@ A local Home Assistant Lovelace climate control card with a responsive HUD-style
 
 ☕ [Frankys_Stuff auf Ko-fi unterstützen](https://ko-fi.com/Frankys_Stuff)
 
-**Installation:** Manuell oder nach Veröffentlichung von v0.2.5 über HACS als benutzerdefiniertes Dashboard-Repository. Die Karte benötigt keine zusätzlichen JavaScript-Bibliotheken.
+**Installation:** Manuell oder über HACS als benutzerdefiniertes Dashboard-Repository. Die Karte benötigt keine zusätzlichen JavaScript-Bibliotheken.
 
-**Aktueller Stand / Current status:** v0.2.5 liegt im Hauptzweig und enthält die geprüfte HACS-Konfiguration. **Letztes veröffentlichtes GitHub-Release:** [v0.2.4](https://github.com/Franz1302/frankys-stuff-climate-card/releases/tag/v0.2.4). Der Tag/Release für v0.2.5 wird nach erfolgreichem CI-Prüflauf erstellt. **Lizenz:** MIT (`LICENSE`, `LICENSE_SCOPE.md`).
+**Aktueller Stand / Current status:** v0.2.5 liegt im Hauptzweig und enthält die geprüfte HACS-Konfiguration. **Letztes veröffentlichtes GitHub-Release:** [v0.2.5](https://github.com/Franz1302/frankys-stuff-climate-card/releases/tag/v0.2.5). **Lizenz:** MIT (`LICENSE`, `LICENSE_SCOPE.md`).
 
 **Features**
 - Profiles: `thermostat`, `pool_heatpump`, `advanced`
@@ -45,12 +45,12 @@ A local Home Assistant Lovelace climate control card with a responsive HUD-style
 
 ## HACS (benutzerdefiniertes Repository / custom repository)
 
-**Status:** The repository includes `hacs.json` and a passing automated HACS validation (8/8 checks). The code and manifest for v0.2.5 are in `main`; the v0.2.5 GitHub release and a real Home Assistant HACS installation test are still pending. **This card is not yet listed in the official HACS catalogue.**
+**Status:** The repository includes `hacs.json` and a passing automated HACS validation (8/8 checks). The code and manifest for v0.2.5 are in `main`, and the v0.2.5 GitHub release is published. A real Home Assistant HACS installation test is still pending. **This card is not yet listed in the official HACS catalogue.**
 
 1. Öffne **HACS → ⋮ → Benutzerdefinierte Repositories / Custom repositories**.
 2. Füge `https://github.com/Franz1302/frankys-stuff-climate-card` hinzu.
 3. Wähle den Typ **Dashboard** (HACS-Backend-Kategorie: `plugin`) und bestätige.
-4. Nach Veröffentlichung des GitHub-Releases **v0.2.5** die Karte in HACS herunterladen.
+4. Die Karte in HACS herunterladen (aktuell veröffentlichtes Release: **v0.2.5**).
 5. Die JavaScript-Modul-Ressource lautet bei HACS-Installation gewöhnlich:
    `/hacsfiles/frankys-stuff-climate-card/frankys-stuff-climate-card.js`.
    Prüfe unter **Einstellungen → Dashboards → Ressourcen**, ob HACS sie bereits eingetragen hat. Nicht doppelt registrieren.
