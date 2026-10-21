@@ -1,4 +1,15 @@
-# Release status — Frankys_Stuff Climate Card v0.2.5 (main)
+# Release status — Frankys_Stuff Climate Card v0.2.6 (Entwurf, lokal)
+
+**v0.2.6 (Homematic-Fix) ist lokal vorbereitet: nicht gepusht, nicht getaggt, kein GitHub-Release. Freigabe ausständig.**
+
+## v0.2.6
+- [x] Thermostat-Profil: AUTO nutzt `auto`, falls in `hvac_modes` vorhanden, sonst `heat`; ohne `hvac_modes` bisheriges Verhalten; sonst kein Aufruf und Fehlermeldung.
+- [x] Regressionstests `tests/auto-mode.test.js` (simulierte Entitäten, beide JS-Dateien) bestanden; Syntaxprüfung bestanden.
+- [ ] Test mit echter Homematic-Hardware ausständig.
+- [ ] Kompatibilitätsrisiko: Thermostate mit `auto` und `heat` erhalten nun `auto` (ggf. geräteeigenes Zeitprogramm); Praxisprüfung ausständig.
+- [ ] Release/Tag v0.2.6 nur nach ausdrücklicher Freigabe.
+
+# Release status — v0.2.5 (main)
 
 **Stand: 11.10.2026 — main enthält v0.2.5 für HACS und die bereits in v0.2.4 veröffentlichte DE/EN-Übersetzung. Der letzte offizielle GitHub-Release ist derzeit v0.2.4.**
 

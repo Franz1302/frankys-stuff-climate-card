@@ -1,4 +1,4 @@
-# Frankys_Stuff Climate Card — Standalone v0.2.5 (HACS ready)
+# Frankys_Stuff Climate Card â€” Standalone v0.2.6 (HACS ready)
 
 <p align="center">
   <a href="https://ko-fi.com/Frankys_Stuff">
@@ -23,17 +23,17 @@ A local Home Assistant Lovelace climate control card with a responsive HUD-style
 
 ## Download
 
-[frankys-stuff-climate-card.js](frankys-stuff-climate-card.js) — standalone JavaScript, no other runtime assets required.
+[frankys-stuff-climate-card.js](frankys-stuff-climate-card.js) â€” standalone JavaScript, no other runtime assets required.
 
-**Installation:** Manuell oder über HACS als benutzerdefiniertes Dashboard-Repository. Die Karte benötigt keine zusätzlichen JavaScript-Bibliotheken.
+**Installation:** Manuell oder Ã¼ber HACS als benutzerdefiniertes Dashboard-Repository. Die Karte benÃ¶tigt keine zusÃ¤tzlichen JavaScript-Bibliotheken.
 
-**Aktueller Stand / Current status:** v0.2.5 liegt im Hauptzweig und enthält die geprüfte HACS-Konfiguration. **Letztes veröffentlichtes GitHub-Release:** [v0.2.5](https://github.com/Franz1302/frankys-stuff-climate-card/releases/tag/v0.2.5). **Lizenz:** MIT (`LICENSE`, `LICENSE_SCOPE.md`).
+**Aktueller Stand / Current status:** v0.2.5 liegt im Hauptzweig und enthÃ¤lt die geprÃ¼fte HACS-Konfiguration. **Letztes verÃ¶ffentlichtes GitHub-Release:** [v0.2.5](https://github.com/Franz1302/frankys-stuff-climate-card/releases/tag/v0.2.5). **Lizenz:** MIT (`LICENSE`, `LICENSE_SCOPE.md`).
 
 **Features**
 - Profiles: `thermostat`, `pool_heatpump`, `advanced`
 - Target temperature via touch/click on the circular dial, drag, or +/- buttons
 - Operating modes OFF / AUTO / MANUAL, depending on the configured profile
-- Optional Home Assistant schedule editor for weekday (Mon–Fri) and weekend (Sat–Sun) blocks
+- Optional Home Assistant schedule editor for weekday (Monâ€“Fri) and weekend (Satâ€“Sun) blocks
 - Complete German/English labels for both the card and its visual editor, automatic Home Assistant language selection or manual override
 - Local implementation: no CDN, separate assets, cloud service, API key, external fonts, or third-party JavaScript library
 - HA GUI card editor; old `jarvis-*` element aliases remain for compatibility
@@ -43,9 +43,9 @@ A local Home Assistant Lovelace climate control card with a responsive HUD-style
 
 ## Sprache / Language
 
-- **Automatisch / Automatic (`language: auto`):** Nutzt die Home-Assistant-Sprache (`de` → Deutsch, `en` → English; andere Sprachen → English).
+- **Automatisch / Automatic (`language: auto`):** Nutzt die Home-Assistant-Sprache (`de` â†’ Deutsch, `en` â†’ English; andere Sprachen â†’ English).
 - **Manuelle Auswahl / Manual selection:** `language: de` oder `language: en`.
-- Kartenansicht, visueller Editor, Hinweise und bekannte Heizplan-Fehlermeldungen wechseln mit der gewählten Sprache.
+- Kartenansicht, visueller Editor, Hinweise und bekannte Heizplan-Fehlermeldungen wechseln mit der gewÃ¤hlten Sprache.
 - **Keine separaten Sprachdateien erforderlich / No separate translation assets required.** Everything is included in the standalone JavaScript.
 - The v0.2.4 translation release passed syntax and language-switching tests. Version v0.2.5 adds HACS support; the HACS-managed resource has been observed in a Home Assistant installation, without an additional full functional test.
 
@@ -54,21 +54,21 @@ A local Home Assistant Lovelace climate control card with a responsive HUD-style
 
 **Status (2026-10-18):** The repository includes `hacs.json` and a passing automated HACS validation (8/8 checks). Release **v0.2.5** is published, and the HACS-managed JavaScript resource is registered in Home Assistant. A separate end-to-end functional installation test has not been documented. **This card is not listed in the official HACS catalogue**; add it as a custom Dashboard repository.
 
-1. Öffne **HACS → ⋮ → Benutzerdefinierte Repositories / Custom repositories**.
-2. Füge `https://github.com/Franz1302/frankys-stuff-climate-card` hinzu.
-3. Wähle den Typ **Dashboard** (HACS-Backend-Kategorie: `plugin`) und bestätige.
-4. Die Karte in HACS herunterladen (aktuell veröffentlichtes Release: **v0.2.5**).
-5. Die JavaScript-Modul-Ressource lautet bei HACS-Installation gewöhnlich:
+1. Ã–ffne **HACS â†’ â‹® â†’ Benutzerdefinierte Repositories / Custom repositories**.
+2. FÃ¼ge `https://github.com/Franz1302/frankys-stuff-climate-card` hinzu.
+3. WÃ¤hle den Typ **Dashboard** (HACS-Backend-Kategorie: `plugin`) und bestÃ¤tige.
+4. Die Karte in HACS herunterladen (aktuell verÃ¶ffentlichtes Release: **v0.2.5**).
+5. Die JavaScript-Modul-Ressource lautet bei HACS-Installation gewÃ¶hnlich:
    `/hacsfiles/frankys-stuff-climate-card/frankys-stuff-climate-card.js`.
-   Prüfe unter **Einstellungen → Dashboards → Ressourcen**, ob HACS sie bereits eingetragen hat. Nicht doppelt registrieren.
+   PrÃ¼fe unter **Einstellungen â†’ Dashboards â†’ Ressourcen**, ob HACS sie bereits eingetragen hat. Nicht doppelt registrieren.
 
 **Existing manual installations / Bestehende manuelle Installationen:** Do not load both the manual `/local/...` JavaScript and the HACS `/hacsfiles/...` JavaScript on the same Home Assistant frontend. Keep an existing working manual resource unchanged unless you intentionally migrate to HACS, then switch resource registrations carefully. All previous `custom:jarvis-climate-card` aliases remain in the script.
 
 ## English: installation
 
 1. Copy **`frankys-stuff-climate-card.js`** to `/config/www/frankys-stuff/climate/` on your Home Assistant installation. Create these folders if necessary.
-2. In Home Assistant, open **Settings → Dashboards → Resources** (the exact UI position may vary by version). Add:
-   - **URL:** `/local/frankys-stuff/climate/frankys-stuff-climate-card.js?v=0.2.5`
+2. In Home Assistant, open **Settings â†’ Dashboards â†’ Resources** (the exact UI position may vary by version). Add:
+   - **URL:** `/local/frankys-stuff/climate/frankys-stuff-climate-card.js?v=0.2.6`
    - **Type:** `JavaScript module` (`module`)
 3. Reload the browser. Add a new card using the visual editor or this YAML:
 
@@ -108,10 +108,12 @@ Optional profile-specific configuration keys: `language` (`auto`, `de`, `en`), `
 **Important operating notes**
 - This card sends real Home Assistant service calls and can change heating device states.
 - In the `thermostat` profile, selecting MANUAL stops the climate controller; when a `heater_entity` is configured, tapping the heat waves can directly toggle the associated switch. Use only with suitable control/safety logic.
+- **AUTO in the `thermostat` profile (v0.2.6):** the card reads `hvac_modes` of the `control_entity` and sends `hvac_mode: auto` if supported, otherwise `heat`. Without `hvac_modes` it sends `heat` as before. If neither is supported, no service call is sent and the card shows "AUTO NOT SUPPORTED". OFF, MANUAL and the `pool_heatpump`/`advanced` profiles are unchanged.
+- **Compatibility note (v0.2.6):** thermostats that list **both** `auto` and `heat` (e.g. Homematic, and depending on the integration some TRVs/Zigbee thermostats) now receive `auto` instead of `heat`. On some devices `auto` means the device's own schedule rather than the fixed setpoint. Check the behavior after updating; thermostats with only `heat`/`off` (e.g. Generic Thermostat) are unaffected.
 - `heater_entity` **is a switch for control**. `heating_status_entity` **is a binary sensor for display only**. Never put a measuring plug into `heater_entity` merely to observe its load.
-- With the optional measured state configured: `on` → **ACTIVE**, `off` → **READY** (while climate remains enabled) or **OFF** (when climate is off), `unavailable`/`unknown` → **UNAVAILABLE**. Without a configured heating status, the previous visual status logic is retained.
+- With the optional measured state configured: `on` â†’ **ACTIVE**, `off` â†’ **READY** (while climate remains enabled) or **OFF** (when climate is off), `unavailable`/`unknown` â†’ **UNAVAILABLE**. Without a configured heating status, the previous visual status logic is retained.
 - The 24-hour graph requires Home Assistant's **Recorder** to retain the source entity and a working Lovelace History WebSocket API. If Recorder is disabled/excludes the source, only readings observed while the card is open can be shown; reloading never generates fake readings.
-- Editing/saving schedules requires an administrator account. The built-in editor expects continuous weekday/weekend time blocks, with 5–30 °C setpoints at 0.5 °C intervals. Other schedules may be intentionally refused rather than overwritten.
+- Editing/saving schedules requires an administrator account. The built-in editor expects continuous weekday/weekend time blocks, with 5â€“30 Â°C setpoints at 0.5 Â°C intervals. Other schedules may be intentionally refused rather than overwritten.
 - Card and visual configuration editor support German and English, including explanatory hints and known schedule validation messages. Selection via `language: auto`, `de`, or `en`; unsupported HA locales fall back to English.
 - Old Safari/iOS browsers may operate the card but struggle with the general Home Assistant dashboard edit interface. Configure the card in a modern desktop browser if necessary.
 - Time formatting prefers the time zone configured in Home Assistant; when unavailable, this version falls back to `Europe/Vienna`.
@@ -121,10 +123,10 @@ Optional profile-specific configuration keys: `language` (`auto`, `de`, `en`), `
 ## Deutsch: Installation
 
 1. Die Datei **`frankys-stuff-climate-card.js`** nach `/config/www/frankys-stuff/climate/` kopieren (Ordner bei Bedarf anlegen).
-2. In Home Assistant unter **Einstellungen → Dashboards → Ressourcen** folgende Ressource registrieren:
-   - **URL:** `/local/frankys-stuff/climate/frankys-stuff-climate-card.js?v=0.2.5`
+2. In Home Assistant unter **Einstellungen â†’ Dashboards â†’ Ressourcen** folgende Ressource registrieren:
+   - **URL:** `/local/frankys-stuff/climate/frankys-stuff-climate-card.js?v=0.2.6`
    - **Typ:** `JavaScript-Modul` (`module`)
-3. Browser neu laden und diese Karte hinzufügen:
+3. Browser neu laden und diese Karte hinzufÃ¼gen:
 
 ```yaml
 type: custom:frankys-stuff-climate-card
@@ -133,7 +135,7 @@ profile: thermostat
 display_entity: climate.wohnzimmer
 ```
 
-`climate.wohnzimmer` ist nur ein **Beispiel**. Eigene Climate-Entität auswählen.
+`climate.wohnzimmer` ist nur ein **Beispiel**. Eigene Climate-EntitÃ¤t auswÃ¤hlen.
 
 **Beispiel: nur lesender Heizstatus durch Leistungsmessung**
 
@@ -145,18 +147,19 @@ display_entity: climate.bad
 heating_status_entity: binary_sensor.badezimmer_heizt
 ```
 
-`heating_status_entity` nutzt einen Binärsensor ausschließlich zur **Anzeige**. `on` bedeutet „heizt“, `off` bedeutet „heizt nicht“. Bei eingeschaltetem Thermostat erscheint dann **AKTIV** bzw. **BEREIT**; bei fehlenden Sensordaten **NICHT VERFÜGBAR**. Der unabhängig davon bestehende `heater_entity`-Switch bleibt allein für die manuelle Steuerung und darf nicht als Messsensor missbraucht werden.
+`heating_status_entity` nutzt einen BinÃ¤rsensor ausschlieÃŸlich zur **Anzeige**. `on` bedeutet â€žheiztâ€œ, `off` bedeutet â€žheizt nichtâ€œ. Bei eingeschaltetem Thermostat erscheint dann **AKTIV** bzw. **BEREIT**; bei fehlenden Sensordaten **NICHT VERFÃœGBAR**. Der unabhÃ¤ngig davon bestehende `heater_entity`-Switch bleibt allein fÃ¼r die manuelle Steuerung und darf nicht als Messsensor missbraucht werden.
 
-Die kleine Temperaturkurve zeigt **24 Stunden echte Recorder-Daten** auf einer Zeitachse und lädt sie nach einem Seitenneustart erneut. Messausfälle werden als Unterbrechungen dargestellt. Die Home-Assistant-Recorder-Aufzeichnung des gewählten Climate-/Temperatursensors muss aktiv sein.
+Die kleine Temperaturkurve zeigt **24 Stunden echte Recorder-Daten** auf einer Zeitachse und lÃ¤dt sie nach einem Seitenneustart erneut. MessausfÃ¤lle werden als Unterbrechungen dargestellt. Die Home-Assistant-Recorder-Aufzeichnung des gewÃ¤hlten Climate-/Temperatursensors muss aktiv sein.
 
 **Wichtige Hinweise**
-- `thermostat`: Die Climate-Entität übernimmt die Regelung. Ein optionaler `heater_entity`-Switch ermöglicht die manuelle Direktbedienung. Die MANUELL-Funktion kann den Climate-Regler abschalten und den Switch direkt schalten.
-- `pool_heatpump`: Zur Steuerung einer passenden Climate-Entität. Bestehende PV-/Energie-Automationen müssen vom Anwender selbst passend konfiguriert werden.
-- `advanced`: Für zusätzliche Sensoren, Helper, Skripte und individuelle Steuerlogik.
-- Der Heizplaneditor wird über das Uhrsymbol geöffnet. Speichern erfordert HA-Administratorrechte; unterstützt sind Wochen- und Wochenendgruppen mit zusammenhängenden Zeitblöcken.
-- Das Bearbeiten von Dashboards im alten Safari (z. B. iOS 12) kann träge sein. Für Konfigurationsänderungen wird ein aktueller PC-Browser empfohlen.
-- Bei Cacheproblemen die Versionskennung der Ressource erhöhen und Browser neu laden.
-- Für neue Dashboards bitte ausschließlich `custom:frankys-stuff-climate-card` verwenden.
+- `thermostat` (ab v0.2.6): AUTO liest `hvac_modes` der Climate-EntitÃ¤t und sendet `auto`, falls unterstÃ¼tzt, sonst `heat`; ohne `hvac_modes` bleibt es bei `heat`. UnterstÃ¼tzt die EntitÃ¤t keines von beiden, wird kein Befehl gesendet und â€žAUTO NICHT UNTERSTÃœTZTâ€œ angezeigt. **KompatibilitÃ¤tshinweis:** Thermostate mit `auto` **und** `heat` (z. B. Homematic) erhalten jetzt `auto` statt `heat`; bei manchen GerÃ¤ten bedeutet `auto` das gerÃ¤teeigene Zeitprogramm statt der festen Solltemperatur. Nach dem Update das Verhalten prÃ¼fen.
+- `thermostat`: Die Climate-EntitÃ¤t Ã¼bernimmt die Regelung. Ein optionaler `heater_entity`-Switch ermÃ¶glicht die manuelle Direktbedienung. Die MANUELL-Funktion kann den Climate-Regler abschalten und den Switch direkt schalten.
+- `pool_heatpump`: Zur Steuerung einer passenden Climate-EntitÃ¤t. Bestehende PV-/Energie-Automationen mÃ¼ssen vom Anwender selbst passend konfiguriert werden.
+- `advanced`: FÃ¼r zusÃ¤tzliche Sensoren, Helper, Skripte und individuelle Steuerlogik.
+- Der Heizplaneditor wird Ã¼ber das Uhrsymbol geÃ¶ffnet. Speichern erfordert HA-Administratorrechte; unterstÃ¼tzt sind Wochen- und Wochenendgruppen mit zusammenhÃ¤ngenden ZeitblÃ¶cken.
+- Das Bearbeiten von Dashboards im alten Safari (z. B. iOS 12) kann trÃ¤ge sein. FÃ¼r KonfigurationsÃ¤nderungen wird ein aktueller PC-Browser empfohlen.
+- Bei Cacheproblemen die Versionskennung der Ressource erhÃ¶hen und Browser neu laden.
+- FÃ¼r neue Dashboards bitte ausschlieÃŸlich `custom:frankys-stuff-climate-card` verwenden.
 - Die Kaffeekassa ist freiwillig, die Karte bleibt kostenlos: [Ko-fi](https://ko-fi.com/Frankys_Stuff).
 
 ## Tests / Tests performed
@@ -166,6 +169,7 @@ Die kleine Temperaturkurve zeigt **24 Stunden echte Recorder-Daten** auf einer Z
 - OFF/AUTO/MANUAL modes and schedule: PASS (user-confirmed on their setup)
 - Visual card editor on Windows PC: PASS (user-confirmed)
 - Static JavaScript syntax, alias registration and editor-update regression checks: PASS
+- v0.2.6 AUTO mode selection with simulated entities (`node tests/auto-mode.test.js`): PASS; real Homematic hardware: NOT YET TESTED
 - Dashboard editing in legacy Safari: LIMITED by general HA/browser performance, not established as a card defect
 - Independent device/browser matrix: NOT YET COMPLETED
 
@@ -178,6 +182,11 @@ Die kleine Temperaturkurve zeigt **24 Stunden echte Recorder-Daten** auf einer Z
 **Copyright (c) 2026 Frankys_Stuff.** See `QA_REPORT.md` and `RELEASE_STATUS.md` for the reviewed release scope and limitations.
 
 ## Changelog
+
+**v0.2.6 (draft, unpublished)**
+- Thermostat profile: AUTO now uses `hvac_mode: auto` when supported by the entity (fixes Homematic), else `heat`; legacy `heat` without `hvac_modes`; no invalid service call and a visible error if neither is supported.
+- OFF, MANUAL, `pool_heatpump` and `advanced` unchanged. Regression tests: `node tests/auto-mode.test.js`.
+- Compatibility risk: thermostats listing both `auto` and `heat` now receive `auto` (see operating notes).
 
 **v0.2.5 (2026-10-11, HACS release published)**
 - HACS plugin manifest `hacs.json` and automatic validation workflow available.
@@ -193,11 +202,11 @@ Die kleine Temperaturkurve zeigt **24 Stunden echte Recorder-Daten** auf einer Z
 
 
 **v0.2.3 (2026-10-11)**
-- Übernahme der aktuellen grafischen Temperatur-/Skalenverbesserungen in die öffentliche Standalone-Datei.
-- Echte, zeitbasierte **24-Stunden-Temperaturkurve** mit Wiederherstellung aus Home Assistant Recorder nach Aktualisierung, periodischer Historienabfrage und Unterbrechungen bei Messausfällen.
-- Neues optionales, rein lesendes Feld `heating_status_entity` für Thermostatkarten einschließlich Auswahl im Karteneditor: **AKTIV / BEREIT / AUS**.
-- Bestehende Bedienelemente, Heizplan und Steuerbefehle nicht geändert.
-- Die neuen Funktionen (24-Stunden-Kurve und Heizstatus) wurden am 11.10.2026 vom Herausgeber in Home Assistant überprüft und als funktionierend bestätigt. Unabhängige Tests auf weiteren Geräten stehen aus.
+- Ãœbernahme der aktuellen grafischen Temperatur-/Skalenverbesserungen in die Ã¶ffentliche Standalone-Datei.
+- Echte, zeitbasierte **24-Stunden-Temperaturkurve** mit Wiederherstellung aus Home Assistant Recorder nach Aktualisierung, periodischer Historienabfrage und Unterbrechungen bei MessausfÃ¤llen.
+- Neues optionales, rein lesendes Feld `heating_status_entity` fÃ¼r Thermostatkarten einschlieÃŸlich Auswahl im Karteneditor: **AKTIV / BEREIT / AUS**.
+- Bestehende Bedienelemente, Heizplan und Steuerbefehle nicht geÃ¤ndert.
+- Die neuen Funktionen (24-Stunden-Kurve und Heizstatus) wurden am 11.10.2026 vom Herausgeber in Home Assistant Ã¼berprÃ¼ft und als funktionierend bestÃ¤tigt. UnabhÃ¤ngige Tests auf weiteren GerÃ¤ten stehen aus.
 
 
 

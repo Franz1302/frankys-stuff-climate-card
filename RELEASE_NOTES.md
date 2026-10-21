@@ -1,4 +1,22 @@
-# Frankys_Stuff Climate Card v0.2.5 — HACS support
+# Frankys_Stuff Climate Card v0.2.6 — Homematic compatibility fix (draft, unpublished)
+
+Fixes AUTO mode for thermostats such as Homematic that require `hvac_mode: auto`.
+
+## What's new
+- `thermostat` profile: AUTO reads `hvac_modes` of the control entity and sends `auto` if supported, otherwise `heat`. Without `hvac_modes` it sends `heat` as before. If neither is supported, no service call is sent and the card shows "AUTO NOT SUPPORTED".
+- OFF, MANUAL, the `pool_heatpump` and `advanced` profiles, design, dial, schedules and translations are unchanged.
+
+## Compatibility risk
+Thermostats that report both `auto` and `heat` now receive `auto` instead of `heat`. On devices where `auto` means an internal schedule, that schedule may override the setpoint set via the card. Thermostats with only `heat`/`off` or without `hvac_modes` behave as before. Please verify after updating.
+
+## Limitations
+- Not yet tested with real Homematic hardware; verified with simulated entities (`node tests/auto-mode.test.js`).
+- Full HACS installation has not yet been verified; the repository is not in the official HACS catalogue.
+
+---
+
+Previous release notes (v0.2.5 — HACS support) follow.
+
 
 HACS-ready packaging release for the Frankys_Stuff Climate Card, building on the released v0.2.4 with its integrated German/English language system.
 

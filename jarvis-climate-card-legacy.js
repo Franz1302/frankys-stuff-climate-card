@@ -5,7 +5,7 @@
 })();
 
 /**
- * Frankys_Stuff Climate Card Standalone v0.2.5 — native HA schedule + stabilized touch dial
+ * Frankys_Stuff Climate Card Standalone v0.2.6 — native HA schedule + stabilized touch dial
  * Reusable 1000x640 climate control for Home Assistant. Keeps legacy custom element IDs.
  */
 const FrankysClimateScheduleEnglishErrors = {
@@ -128,8 +128,8 @@ class JarvisClimateCardLegacy extends HTMLElement {
   }
   _t(key) {
     const table = {
-      de:{actual:"Aktuell",mode:"Modus",off:"AUS",auto:"AUTO",manual:"MANUELL",target:"Soll-Temperatur",sending:"BEFEHL WIRD GESENDET",unavailable:"NICHT VERFÜGBAR",ready:"BEREIT",active:"AKTIV",scheduleSetup:"HEIZPLAN ÜBER DIE UHR EINRICHTEN",noBlock:"KEIN GÜLTIGER ZEITBLOCK",schedule:"Heizplan öffnen",until:"BIS",plan:"HEIZPLAN",planIntro:"Jeder Beginn gilt bis zum nächsten Eintrag, auch über Mitternacht. Temperaturen: 5–30 °C · Schritt 0,5 °C.",weekday:"Mo–Fr",weekend:"Sa–So",start:"Beginn",temperature:"Temperatur °C",addStart:"+ Beginn",loading:"Heizplan wird geladen / gespeichert …",admin:"Bearbeiten und Speichern erfordert ein HA-Administratorkonto.",cancel:"ABBRECHEN",save:"SPEICHERN",remove:"Eintrag entfernen"},
-      en:{actual:"Current",mode:"Mode",off:"OFF",auto:"AUTO",manual:"MANUAL",target:"Target Temp.",sending:"SENDING COMMAND",unavailable:"UNAVAILABLE",ready:"READY",active:"ACTIVE",scheduleSetup:"SET SCHEDULE VIA CLOCK",noBlock:"NO VALID TIME BLOCK",schedule:"Open schedule",until:"UNTIL",plan:"SCHEDULE",planIntro:"Each start time remains active until the next entry, including across midnight. Temperatures: 5–30 °C · Step 0.5 °C.",weekday:"Mon–Fri",weekend:"Sat–Sun",start:"Start",temperature:"Temperature °C",addStart:"+ Start",loading:"Schedule is loading / saving …",admin:"Editing and saving requires a Home Assistant administrator account.",cancel:"CANCEL",save:"SAVE",remove:"Remove entry"}
+      de:{actual:"Aktuell",mode:"Modus",off:"AUS",auto:"AUTO",manual:"MANUELL",target:"Soll-Temperatur",sending:"BEFEHL WIRD GESENDET",unavailable:"NICHT VERFÜGBAR",ready:"BEREIT",active:"AKTIV",scheduleSetup:"HEIZPLAN ÜBER DIE UHR EINRICHTEN",noBlock:"KEIN GÜLTIGER ZEITBLOCK",schedule:"Heizplan öffnen",until:"BIS",plan:"HEIZPLAN",planIntro:"Jeder Beginn gilt bis zum nächsten Eintrag, auch über Mitternacht. Temperaturen: 5–30 °C · Schritt 0,5 °C.",weekday:"Mo–Fr",weekend:"Sa–So",start:"Beginn",temperature:"Temperatur °C",addStart:"+ Beginn",loading:"Heizplan wird geladen / gespeichert …",admin:"Bearbeiten und Speichern erfordert ein HA-Administratorkonto.",cancel:"ABBRECHEN",save:"SPEICHERN",remove:"Eintrag entfernen",noAutoMode:"AUTO NICHT UNTERSTÜTZT"},
+      en:{actual:"Current",mode:"Mode",off:"OFF",auto:"AUTO",manual:"MANUAL",target:"Target Temp.",sending:"SENDING COMMAND",unavailable:"UNAVAILABLE",ready:"READY",active:"ACTIVE",scheduleSetup:"SET SCHEDULE VIA CLOCK",noBlock:"NO VALID TIME BLOCK",schedule:"Open schedule",until:"UNTIL",plan:"SCHEDULE",planIntro:"Each start time remains active until the next entry, including across midnight. Temperatures: 5–30 °C · Step 0.5 °C.",weekday:"Mon–Fri",weekend:"Sat–Sun",start:"Start",temperature:"Temperature °C",addStart:"+ Start",loading:"Schedule is loading / saving …",admin:"Editing and saving requires a Home Assistant administrator account.",cancel:"CANCEL",save:"SAVE",remove:"Remove entry",noAutoMode:"AUTO NOT SUPPORTED"}
     };
     const d = table[this._lang()] || table.en;
     return d[key] || key;
@@ -435,6 +435,16 @@ class JarvisClimateCardLegacy extends HTMLElement {
     }
   }
 
+  _thermostatAutoMode(control) {
+    const attrs = (this._state(control) || {}).attributes || {};
+    const modes = attrs.hvac_modes;
+    // Without a reported mode list, keep the legacy behavior.
+    if (!Array.isArray(modes) || !modes.length) return "heat";
+    if (modes.indexOf("auto") !== -1) return "auto";
+    if (modes.indexOf("heat") !== -1) return "heat";
+    return null;
+  }
+
   async _setMode(mode) {
     const profile = this._profile();
 
@@ -459,10 +469,17 @@ class JarvisClimateCardLegacy extends HTMLElement {
       }
 
       if (mode === "AUTO") {
+        const hvacMode = this._thermostatAutoMode(control);
+        if (!hvacMode) {
+          console.error("Frankys_Stuff Climate Card: " + control + " supports neither hvac_mode auto nor heat.");
+          this._error = this._t("noAutoMode");
+          this._render();
+          return;
+        }
         this._manualArmed = false;
         await this._call("climate", "set_hvac_mode", {
           entity_id: control,
-          hvac_mode: "heat"
+          hvac_mode: hvacMode
         });
         return;
       }
@@ -969,7 +986,7 @@ class JarvisClimateCardLegacy extends HTMLElement {
         ${!(this._hass && this._hass.user && this._hass.user.is_admin) ? '<p>'+this._t("admin")+'</p>' : ""}
         ${this._scheduleError ? `<p class="error" role="alert">${esc(this._scheduleError)}</p>` : ""}
         <div class="actions"><button id="cancel" ${busy ? "disabled" : ""}>${this._t("cancel")}</button><button id="save" class="save" ${busy || !this._scheduleDraft || !(this._hass && this._hass.user && this._hass.user.is_admin) ? "disabled" : ""}>${this._t("save")}</button></div>
-        <div class="version">Frankys_Stuff Climate · v0.2.5</div>
+        <div class="version">Frankys_Stuff Climate · v0.2.6</div>
       </section>`;
     this.shadowRoot.querySelectorAll("input[data-field]").forEach(input => input.addEventListener("input", () => {
       this._scheduleDraft[input.dataset.group][Number(input.dataset.index)][input.dataset.field] = input.value;
