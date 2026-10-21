@@ -2,11 +2,11 @@
 
 ## v0.2.6 — Homematic-Kompatibilität / Homematic compatibility (Entwurf, nicht veröffentlicht)
 
-- Profil `thermostat`: AUTO liest `hvac_modes` der `control_entity` und sendet `auto`, falls unterstützt, sonst `heat`; ohne `hvac_modes` bleibt es bei `heat` (bisheriges Verhalten).
+- Profil `thermostat`: neue optionale Einstellung `auto_hvac_mode` (`heat` = Standard, `auto`), im Editor als „AUTO-Betriebsmodus“ / "AUTO operating mode" wählbar; angeboten werden nur in `hvac_modes` gemeldete Modi. Ohne Einstellung bleibt es bei `heat` (bisheriges Verhalten); ist `heat` nicht unterstützt, `auto` aber schon, wird `auto` statt eines ungültigen `heat` gesendet.
 - Unterstützt die Entität weder `auto` noch `heat`, wird kein Service-Aufruf gesendet; die Karte zeigt „AUTO NICHT UNTERSTÜTZT“ / „AUTO NOT SUPPORTED“.
 - AUS, MANUELL sowie die Profile `pool_heatpump` und `advanced` unverändert. Beide JS-Einstiegspunkte identisch, Version v0.2.6.
-- Fix for Homematic thermostats that need `hvac_mode: auto` to resume after being switched off.
-- **Kompatibilitätsrisiko / Compatibility risk:** Thermostate, die `auto` und `heat` melden, erhalten nun `auto` statt `heat`. Bei Geräten, deren `auto` ein internes Zeitprogramm bedeutet, kann dieses die Solltemperatur der Karte bzw. des Heizplans übersteuern. Nur `heat`/`off` (z. B. Generic Thermostat) oder fehlende `hvac_modes`: unverändert. Nach dem Update prüfen.
+- Option `auto` for Homematic thermostats that need `hvac_mode: auto` to resume after being switched off.
+- **Kompatibilität / Compatibility:** Bestehende Konfigurationen unverändert (Standard `heat`). Mit `auto` kann ein geräteeigenes Zeitprogramm die Solltemperatur der Karte übersteuern; am Gerät prüfen.
 - Regressionstests: `node tests/auto-mode.test.js` (simulierte Entitäten, beide JS-Dateien). Homematic-Hardwaretest ausständig.
 
 ## v0.2.5 — HACS-Verteilung / HACS Packaging — 11.10.2026 (main, Release ausständig)

@@ -3,10 +3,11 @@
 **v0.2.6 (Homematic-Fix) ist lokal vorbereitet: nicht gepusht, nicht getaggt, kein GitHub-Release. Freigabe ausständig.**
 
 ## v0.2.6
-- [x] Thermostat-Profil: AUTO nutzt `auto`, falls in `hvac_modes` vorhanden, sonst `heat`; ohne `hvac_modes` bisheriges Verhalten; sonst kein Aufruf und Fehlermeldung.
+- [x] Thermostat-Profil: neue Option `auto_hvac_mode` (`heat` Standard / `auto`), Editor-Auswahl nur mit unterstützten Modi (DE/EN); nicht unterstützter Modus → anderer unterstützter Modus; keiner → kein Aufruf und Fehlermeldung.
 - [x] Regressionstests `tests/auto-mode.test.js` (simulierte Entitäten, beide JS-Dateien) bestanden; Syntaxprüfung bestanden.
 - [ ] Test mit echter Homematic-Hardware ausständig.
-- [ ] Kompatibilitätsrisiko: Thermostate mit `auto` und `heat` erhalten nun `auto` (ggf. geräteeigenes Zeitprogramm); Praxisprüfung ausständig.
+- [x] Bestehende Konfigurationen unverändert (Standard `heat`); `auto` ist Opt-in.
+- [ ] Praxisprüfung von `auto` (geräteeigenes Zeitprogramm kann Kartensollwert übersteuern) ausständig.
 - [ ] Release/Tag v0.2.6 nur nach ausdrücklicher Freigabe.
 
 # Release status — v0.2.5 (main)

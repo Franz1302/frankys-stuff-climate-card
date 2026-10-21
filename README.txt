@@ -15,9 +15,9 @@ Tests: QA_REPORT.md
 Release-Stand: RELEASE_STATUS.md
 Kompatibilitätsdatei: jarvis-climate-card-legacy.js
 
-Neu in v0.2.6: Thermostat-Profil, AUTO sendet "auto", wenn die Climate-Entität es
-unterstützt (z. B. Homematic), sonst "heat". Achtung: Thermostate mit "auto" und
-"heat" erhalten nun "auto" statt "heat" (teils geräteeigenes Zeitprogramm).
+Neu in v0.2.6: Thermostat-Profil, Einstellung "AUTO-Betriebsmodus" (auto_hvac_mode):
+Standard "heat" (unverändert), optional "auto" für Thermostate mit eigenem
+Automatikprogramm (z. B. Homematic). Es werden nur unterstützte Modi angeboten.
 Tests: node tests/auto-mode.test.js
 Seit v0.2.5: HACS-Plugin-Konfiguration (hacs.json), GitHub-Prüfung
 (8/8 bestanden), HACS-Installationsanleitung. Funktionslogik unverändert.

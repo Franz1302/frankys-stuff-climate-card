@@ -1,13 +1,14 @@
 # Frankys_Stuff Climate Card v0.2.6 — Homematic compatibility fix (draft, unpublished)
 
-Fixes AUTO mode for thermostats such as Homematic that require `hvac_mode: auto`.
+Adds an opt-in AUTO mode setting for thermostats such as Homematic that require `hvac_mode: auto`.
 
 ## What's new
-- `thermostat` profile: AUTO reads `hvac_modes` of the control entity and sends `auto` if supported, otherwise `heat`. Without `hvac_modes` it sends `heat` as before. If neither is supported, no service call is sent and the card shows "AUTO NOT SUPPORTED".
+- `thermostat` profile: new optional `auto_hvac_mode` (`heat` = default, `auto`), selectable in the editor as "AUTO operating mode" (German/English). Only modes reported in `hvac_modes` are offered.
+- If the chosen mode is unsupported but the other is supported, the supported one is sent; without `hvac_modes` the configured mode is sent; if neither `heat` nor `auto` is supported, no service call is sent and the card shows "AUTO NOT SUPPORTED".
 - OFF, MANUAL, the `pool_heatpump` and `advanced` profiles, design, dial, schedules and translations are unchanged.
 
-## Compatibility risk
-Thermostats that report both `auto` and `heat` now receive `auto` instead of `heat`. On devices where `auto` means an internal schedule, that schedule may override the setpoint set via the card. Thermostats with only `heat`/`off` or without `hvac_modes` behave as before. Please verify after updating.
+## Compatibility
+Existing configurations need no change: without `auto_hvac_mode`, AUTO sends `heat` as before. The only difference: if an entity supports `auto` but not `heat`, `auto` is sent instead of an invalid `heat`. With `auto` selected, a device's internal schedule may override the setpoint set via the card; please verify on your device.
 
 ## Limitations
 - Not yet tested with real Homematic hardware; verified with simulated entities (`node tests/auto-mode.test.js`).

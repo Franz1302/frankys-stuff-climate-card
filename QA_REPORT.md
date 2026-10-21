@@ -1,9 +1,9 @@
 # QA report — Frankys_Stuff Climate Card v0.2.6 (draft)
 
 ## v0.2.6 checks (Homematic AUTO mode)
-- [x] `node tests/auto-mode.test.js`: 15 cases per entrypoint with simulated entities (auto+heat → auto; heat only → heat; auto only → auto; missing/empty `hvac_modes` → heat; no suitable mode → no service call and error shown; failed service call → error handled; AUS/MANUELL unchanged; `pool_heatpump`/`advanced` unchanged) plus identity of both JS files.
+- [x] `node tests/auto-mode.test.js`: 28 cases per entrypoint with simulated entities (default keeps `heat` even if `auto` is offered; option `auto` → auto; unsupported chosen mode falls back to the supported one; missing/empty `hvac_modes`; no suitable mode → no service call and DE/EN error; failed service call → error handled; editor offers only supported modes and shows DE/EN labels; AUS/MANUELL unchanged; `pool_heatpump`/`advanced` unchanged) plus identity of both JS files.
 - [x] `node --check` passed for both JS entrypoints.
-- [ ] Real Homematic hardware test pending; compatibility risk for thermostats offering `auto` and `heat` (now `auto`) not yet field-tested.
+- [ ] Real Homematic hardware test pending; `auto` option (device schedule may override card setpoint) not yet field-tested; editor rendering verified only with a DOM stub, not in a real Home Assistant editor.
 
 # QA report — v0.2.5 (main)
 

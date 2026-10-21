@@ -438,10 +438,13 @@ class JarvisClimateCardLegacy extends HTMLElement {
   _thermostatAutoMode(control) {
     const attrs = (this._state(control) || {}).attributes || {};
     const modes = attrs.hvac_modes;
-    // Without a reported mode list, keep the legacy behavior.
-    if (!Array.isArray(modes) || !modes.length) return "heat";
-    if (modes.indexOf("auto") !== -1) return "auto";
-    if (modes.indexOf("heat") !== -1) return "heat";
+    // Only "auto" is an explicit opt-in; anything else keeps the legacy "heat".
+    const preferred = this._config.auto_hvac_mode === "auto" ? "auto" : "heat";
+    const other = preferred === "auto" ? "heat" : "auto";
+    // Without a reported mode list, use the configured mode.
+    if (!Array.isArray(modes) || !modes.length) return preferred;
+    if (modes.indexOf(preferred) !== -1) return preferred;
+    if (modes.indexOf(other) !== -1) return other;
     return null;
   }
 
@@ -1229,7 +1232,12 @@ const FrankysClimateEditorEnglish = {
   "Optional: separate Helper, Schalter und Skripte für individuelle Heizungssteuerungen.": "Optional separate helpers, switches, and scripts for custom heating systems.",
   "Min. Temperatur (leer = Gerät)": "Minimum temperature (blank = device)",
   "Max. Temperatur (leer = Gerät)": "Maximum temperature (blank = device)",
-  "Schrittweite (leer = Gerät)": "Temperature step (blank = device)"
+  "Schrittweite (leer = Gerät)": "Temperature step (blank = device)",
+  "AUTO-Betriebsmodus": "AUTO operating mode",
+  "heat – feste Solltemperatur (Standard)": "heat – fixed target temperature (default)",
+  "auto – Automatikprogramm des Geräts (z. B. Homematic)": "auto – device's own automatic program (e.g. Homematic)",
+  "nicht unterstützt": "not supported",
+  "Wird bei AUTO an das Thermostat gesendet. Angeboten werden nur Modi, die das Gerät meldet.": "Sent to the thermostat when AUTO is selected. Only modes reported by the device are offered."
 };
 
 class JarvisClimateCardLegacyEditor extends HTMLElement {
@@ -1296,7 +1304,62 @@ class JarvisClimateCardLegacyEditor extends HTMLElement {
     if (key === "profile" || key === "language") {
       this._rendered = false;
       this._render();
+    } else if (key === "display_entity" || key === "control_entity") {
+      this._refreshAutoModeOptions();
     }
+  }
+
+  // Offers only heat/auto modes reported by the selected climate entity.
+  _autoModeOptions() {
+    const id = this._config.control_entity || this._config.display_entity;
+    const state = id && this._hass && this._hass.states ? this._hass.states[id] : null;
+    const reported = state && state.attributes ? state.attributes.hvac_modes : null;
+    const current = this._config.auto_hvac_mode === "auto" ? "auto" : "heat";
+    const known = Array.isArray(reported) && reported.length > 0;
+    const options = [];
+    ["heat", "auto"].forEach(mode => {
+      if (!known || reported.indexOf(mode) !== -1) options.push({ value: mode, supported: true });
+    });
+    if (!options.some(o => o.value === current)) options.push({ value: current, supported: false });
+    return { options, current };
+  }
+
+  _refreshAutoModeOptions() {
+    const select = this.shadowRoot && this.shadowRoot.querySelector("#auto_hvac_mode");
+    if (!select) return;
+    const info = this._autoModeOptions();
+    const labels = {
+      heat: this._t("heat – feste Solltemperatur (Standard)"),
+      auto: this._t("auto – Automatikprogramm des Geräts (z. B. Homematic)")
+    };
+    select.innerHTML = "";
+    info.options.forEach(o => {
+      const opt = document.createElement("option");
+      opt.value = o.value;
+      opt.textContent = labels[o.value] + (o.supported ? "" : " (" + this._t("nicht unterstützt") + ")");
+      select.appendChild(opt);
+    });
+    select.value = info.current;
+  }
+
+  _autoModeField() {
+    const wrap = document.createElement("label");
+    wrap.className = "field";
+    const title = document.createElement("div");
+    title.className = "label";
+    title.textContent = this._t("AUTO-Betriebsmodus");
+    wrap.appendChild(title);
+    const select = document.createElement("select");
+    select.id = "auto_hvac_mode";
+    select.addEventListener("change", ev => this._fireChanged("auto_hvac_mode", ev.target.value));
+    wrap.appendChild(select);
+    const note = document.createElement("div");
+    note.className = "hint";
+    note.textContent = this._t("Wird bei AUTO an das Thermostat gesendet. Angeboten werden nur Modi, die das Gerät meldet.");
+    wrap.appendChild(note);
+    // Populate once the element is attached to the shadow DOM.
+    Promise.resolve().then(() => this._refreshAutoModeOptions());
+    return wrap;
   }
 
   _picker(label, key, domains = []) {
@@ -1496,6 +1559,8 @@ class JarvisClimateCardLegacyEditor extends HTMLElement {
         "heating_status_entity",
         ["binary_sensor"]
       ));
+
+      add(this._autoModeField());
 
       this.shadowRoot.querySelector("#hint").textContent =
         this._t("Climate auswählen und Karte speichern. Über das Uhrsymbol Zeiten und Temperaturen festlegen; der Heizplan wird automatisch angelegt. Der optionale Switch dient der manuellen Bedienung.");
