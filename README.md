@@ -29,6 +29,69 @@ A local Home Assistant Lovelace climate control card with a responsive HUD-style
 - Available modes are read from the selected climate entity.
 - OFF, MANUAL and other card profiles remain unchanged.
 - Homematic hardware testing is still pending.
+## Unreleased: optionale Modus-Aktionen / optional mode actions
+
+Die Tasten **AUS, AUTO und MANUELL** können in allen Profilen einzeln belegt werden.
+Im visuellen Editor die jeweilige Aktion als Skript-ID (`script.example`) oder als
+JSON-Objekt eintragen. Leer lassen oder den Schlüssel entfernen stellt das bisherige
+Verhalten wieder her. In YAML sind dieselben Aktionen als Objekte möglich:
+
+```yaml
+type: custom:frankys-stuff-climate-card
+profile: thermostat
+display_entity: climate.example
+mode_off_action: script.example_off
+mode_auto_action: script.example_auto
+mode_manual_action: script.example_manual
+```
+
+Service-Aktion statt Skript / service action instead of a script:
+
+```yaml
+mode_auto_action:
+  action: climate.set_hvac_mode
+  target:
+    entity_id: climate.example
+  data:
+    hvac_mode: auto
+```
+
+Im Editor entspricht das / equivalent editor JSON:
+```json
+{"action":"climate.set_hvac_mode","target":{"entity_id":"climate.example"},"data":{"hvac_mode":"auto"}}
+```
+
+- Eine konfigurierte Aktion **ersetzt den gesamten bisherigen Ablauf dieser Modus-Taste**;
+  sie führt keine zusätzlichen Climate-, Switch- oder Helper-Befehle aus. Das gilt auch
+  gegenüber `auto_hvac_mode`, `off_script` und `mode_entity`.
+- `mode_manual_action` aktiviert die MANUELL-Taste auch ohne `heater_entity`.
+  Das separate Wellensymbol und das bisherige `manual_script` behalten ihre Funktion.
+- Die Hervorhebung folgt weiterhin den gemeldeten Zuständen. Ein erfolgreicher
+  Skriptstart erzwingt keine Modusanzeige und bestätigt nicht das Ende des Skripts.
+  Insbesondere können `heat` und `auto` weiterhin beide als AUTO angezeigt werden.
+- Keine automatische Ersetzung von Entitäten: Ziele/Daten ausdrücklich angeben.
+  Die Beispiele sind Platzhalter und müssen zu den eigenen HA-Aktionen passen.
+- Fehlerhafte oder fehlgeschlagene Aktionen zeigen einen Fehler; es gibt keinen
+  Rückfall auf den Standardbefehl. Laufende Aufrufe sperren weitere eigene Modus-Aufrufe.
+
+**English:** Each optional `mode_off_action`, `mode_auto_action` or `mode_manual_action`
+replaces only that mode button's complete default behavior in every profile. Enter a
+script entity ID or an action JSON object in the visual editor; use an object in YAML.
+Empty/null/omitted values retain the default behavior. MANUAL is available without a
+heater switch when configured. The separate heat-wave control is unchanged. Displayed
+modes still follow device/helper state, not the last button pressed; script completion
+is not confirmed by `script.turn_on`. Explicitly supply targets/data; no climate entity
+is injected. Invalid/failed actions never fall back to default commands.
+
+Supported objects use `action: domain.service` or `service: domain.service`, optional
+`data` and `target`. HA `action: perform-action` + `perform_action`, and
+`action: call-service` + `service` are also accepted. One service call only; no templates,
+sequences, navigation actions or confirmation options. Use an HA script for sequences.
+Service calls use the official [frontend hass.callService API](https://contributors.home-assistant.io/frontend/reference/hass-object/#callservice).
+
+Validation: `node tests/auto-mode.test.js` and `node tests/mode-actions.test.js`.
+These are synthetic frontend checks; a real Homematic/device acceptance test remains pending.
+
 ## Download
 
 [frankys-stuff-climate-card.js](frankys-stuff-climate-card.js) — standalone JavaScript, no other runtime assets required.

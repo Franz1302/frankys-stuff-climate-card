@@ -1,5 +1,13 @@
 # Changelog — Frankys_Stuff Climate Card
 
+## Unreleased — optionale Modus-Aktionen / optional mode actions
+
+- `mode_off_action`, `mode_auto_action`, `mode_manual_action`: optional script IDs or single HA service-action objects, replacing the selected mode button's default behavior in all profiles.
+- DE/EN editor fields accept script IDs or action JSON; MANUAL can be used without a heater switch.
+- Empty settings preserve existing behavior. Invalid/failed actions do not trigger fallback commands. State display, heat-wave control, schedules and temperature controls remain unchanged.
+- Regression and synthetic editor/render tests: `node tests/auto-mode.test.js` and `node tests/mode-actions.test.js` (the latter requires Git history containing v0.2.6).
+- No release/version bump; real HA frontend and Homematic hardware validation still pending.
+
 ## v0.2.6 — Homematic-Kompatibilität / Homematic compatibility (Entwurf, nicht veröffentlicht)
 
 - Profil `thermostat`: neue optionale Einstellung `auto_hvac_mode` (`heat` = Standard, `auto`), im Editor als „AUTO-Betriebsmodus“ / "AUTO operating mode" wählbar; angeboten werden nur in `hvac_modes` gemeldete Modi. Ohne Einstellung bleibt es bei `heat` (bisheriges Verhalten); ist `heat` nicht unterstützt, `auto` aber schon, wird `auto` statt eines ungültigen `heat` gesendet.
