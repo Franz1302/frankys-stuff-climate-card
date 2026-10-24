@@ -29,6 +29,25 @@ const FrankysClimateScheduleEnglishErrors = {
   "Heizplan konnte nicht gespeichert werden. Bitte neu öffnen und prüfen.": "Could not save the heating schedule. Reopen it and check."
 };
 
+// One optional service action per mode; deliberately no action sequences or templates.
+function frankysModeAction(value) {
+  const object = v => v !== null && typeof v === "object" && !Array.isArray(v);
+  if (typeof value === "string" && /^script\.[a-z0-9_]+$/.test(value)) {
+    return { domain: "script", service: "turn_on", data: { entity_id: value } };
+  }
+  if (!object(value)) throw new Error("Invalid mode action");
+  const service = value.service || value.perform_action || value.action;
+  const allowed = ["service", "perform_action", "action", "data", "target"];
+  if (Object.keys(value).some(k => !allowed.includes(k)) ||
+      typeof service !== "string" || !/^[a-z0-9_]+\.[a-z0-9_]+$/.test(service) ||
+      (value.action && ![service, "call-service", "perform-action"].includes(value.action)) ||
+      (value.service && value.perform_action && value.service !== value.perform_action) ||
+      (value.data !== undefined && !object(value.data)) ||
+      (value.target !== undefined && !object(value.target))) throw new Error("Invalid mode action");
+  const [domain, name] = service.split(".");
+  return { domain, service: name, data: value.data || {}, target: value.target };
+}
+
 class JarvisClimateCardLegacy extends HTMLElement {
   static getStubConfig() {
     return {
@@ -417,13 +436,13 @@ class JarvisClimateCardLegacy extends HTMLElement {
     return Math.max(0.1, value);
   }
 
-  async _call(domain, service, data = {}) {
+  async _call(domain, service, data = {}, target) {
     if (!this._hass || this._pending) return false;
     this._pending = true;
     this._error = "";
     this._render();
     try {
-      await this._hass.callService(domain, service, data);
+      await this._hass.callService(domain, service, data, target);
       return true;
     } catch (e) {
       console.error("Frankys_Stuff Climate Card service call failed:", e);
@@ -448,7 +467,29 @@ class JarvisClimateCardLegacy extends HTMLElement {
     return null;
   }
 
+  _modeAction(mode) {
+    const key = { AUS: "mode_off_action", AUTO: "mode_auto_action", MANUELL: "mode_manual_action" }[mode];
+    return key ? this._config[key] : undefined;
+  }
+
+  _hasModeAction(mode) {
+    const value = this._modeAction(mode);
+    return value !== undefined && value !== null && value !== "";
+  }
+
   async _setMode(mode) {
+    if (this._hasModeAction(mode)) {
+      if (!this._hass || this._pending) return;
+      let action;
+      try { action = frankysModeAction(this._modeAction(mode)); }
+      catch (_) {
+        this._error = this._lang() === "de" ? "UNGÜLTIGE MODUS-AKTION" : "INVALID MODE ACTION";
+        this._render();
+        return;
+      }
+      await this._call(action.domain, action.service, action.data, action.target);
+      return;
+    }
     const profile = this._profile();
 
     // SIMPLE THERMOSTAT:
@@ -1091,7 +1132,7 @@ class JarvisClimateCardLegacy extends HTMLElement {
     const name = this._config.name || "Klima";
     const profile = this._profile();
     const manualAvailable =
-      profile !== "thermostat" || Boolean(this._config.heater_entity);
+      profile !== "thermostat" || Boolean(this._config.heater_entity) || this._hasModeAction("MANUELL");
 
     const modeStroke = m => mode === m ? (m === "AUS" ? "#ff7a22" : "#18dfff") : "#507184";
     const modeText = m => mode === m ? (m === "AUS" ? "#ff9c46" : "#34e9ff") : "#9eb1bd";
@@ -1203,6 +1244,11 @@ JarvisClimateCardLegacy._days = ["monday", "tuesday", "wednesday", "thursday", "
 JarvisClimateCardLegacy._locks = new Map();
 
 const FrankysClimateEditorEnglish = {
+  "AUS-Aktion (optional)": "OFF action (optional)",
+  "AUTO-Aktion (optional)": "AUTO action (optional)",
+  "MANUELL-Aktion (optional)": "MANUAL action (optional)",
+  "Skript-ID oder gültiges Aktions-JSON eingeben.": "Enter a script ID or valid action JSON.",
+  "Optional je Taste: script.beispiel oder JSON mit action/service, data und target. Leer = bisheriges Verhalten. Beispiele im README.": "Optional per button: script.example or JSON with action/service, data and target. Empty = existing behavior. See README for examples.",
   "Anzeigename": "Display name",
   "z. B. Schlafzimmer": "e.g. Bedroom",
   "Sprache / Language": "Language",
@@ -1342,6 +1388,39 @@ class JarvisClimateCardLegacyEditor extends HTMLElement {
     select.value = info.current;
   }
 
+  _modeActionField(key, label) {
+    const wrap = document.createElement("label");
+    wrap.className = "field";
+    const title = document.createElement("div");
+    title.className = "label";
+    title.textContent = this._t(label);
+    wrap.appendChild(title);
+    const input = document.createElement("textarea");
+    input.rows = 2;
+    const value = this._config[key];
+    input.value = value == null ? "" : typeof value === "string" ? value : JSON.stringify(value);
+    input.placeholder = 'script.example';
+    input.addEventListener("input", () => input.setCustomValidity(""));
+    input.addEventListener("change", () => {
+      const text = input.value.trim();
+      let action = "";
+      try {
+        if (text) {
+          action = text.startsWith("{") ? JSON.parse(text) : text;
+          frankysModeAction(action);
+        }
+      } catch (_) {
+        input.setCustomValidity(this._t("Skript-ID oder gültiges Aktions-JSON eingeben."));
+        input.reportValidity();
+        return;
+      }
+      input.setCustomValidity("");
+      this._fireChanged(key, action);
+    });
+    wrap.appendChild(input);
+    return wrap;
+  }
+
   _autoModeField() {
     const wrap = document.createElement("label");
     wrap.className = "field";
@@ -1435,7 +1514,8 @@ class JarvisClimateCardLegacyEditor extends HTMLElement {
         }
 
         select,
-        input{
+        input,
+        textarea{
           box-sizing:border-box;
           width:100%;
           min-height:46px;
@@ -1448,7 +1528,8 @@ class JarvisClimateCardLegacyEditor extends HTMLElement {
         }
 
         select:focus,
-        input:focus{
+        input:focus,
+        textarea:focus{
           outline:2px solid var(--primary-color);
           outline-offset:1px;
         }
@@ -1623,6 +1704,14 @@ class JarvisClimateCardLegacyEditor extends HTMLElement {
       this.shadowRoot.querySelector("#hint").textContent =
         this._t("Optional: separate Helper, Schalter und Skripte für individuelle Heizungssteuerungen.");
     }
+
+    const actionsHint = document.createElement("div");
+    actionsHint.className = "hint";
+    actionsHint.textContent = this._t("Optional je Taste: script.beispiel oder JSON mit action/service, data und target. Leer = bisheriges Verhalten. Beispiele im README.");
+    add(actionsHint);
+    add(this._modeActionField("mode_off_action", "AUS-Aktion (optional)"));
+    add(this._modeActionField("mode_auto_action", "AUTO-Aktion (optional)"));
+    add(this._modeActionField("mode_manual_action", "MANUELL-Aktion (optional)"));
 
     const numbers = this.shadowRoot.querySelector("#numbers");
     numbers.style.display = "grid";
