@@ -1,4 +1,4 @@
-# Frankys_Stuff Climate Card — Standalone v0.2.6 (HACS ready)
+# Frankys_Stuff Climate Card — Standalone v0.2.7 (HACS ready)
 
 <p align="center">
   <a href="https://ko-fi.com/Frankys_Stuff">
@@ -29,7 +29,7 @@ A local Home Assistant Lovelace climate control card with a responsive HUD-style
 - Available modes are read from the selected climate entity.
 - OFF, MANUAL and other card profiles remain unchanged.
 - Homematic hardware testing is still pending.
-## Unreleased: optionale Modus-Aktionen / optional mode actions
+## v0.2.7: optionale Modus-Aktionen / optional mode actions
 
 Die Tasten **AUS, AUTO und MANUELL** können in allen Profilen einzeln belegt werden.
 Im visuellen Editor die jeweilige Aktion als Skript-ID (`script.example`) oder als
@@ -98,7 +98,7 @@ These are synthetic frontend checks; a real Homematic/device acceptance test rem
 
 **Installation:** Manuell oder über HACS als benutzerdefiniertes Dashboard-Repository. Die Karte benötigt keine zusätzlichen JavaScript-Bibliotheken.
 
-**Aktueller Stand / Current status:** v0.2.5 liegt im Hauptzweig und enthält die geprüfte HACS-Konfiguration. **Letztes veröffentlichtes GitHub-Release:** [v0.2.5](https://github.com/Franz1302/frankys-stuff-climate-card/releases/tag/v0.2.5). **Lizenz:** MIT (`LICENSE`, `LICENSE_SCOPE.md`).
+**Aktueller Stand / Current status:** v0.2.7 — optionale Modus-Aktionen / optional mode actions. [Release v0.2.7](https://github.com/Franz1302/frankys-stuff-climate-card/releases/tag/v0.2.7). **Lizenz / License:** MIT (`LICENSE`, `LICENSE_SCOPE.md`).
 
 **Features**
 - Profiles: `thermostat`, `pool_heatpump`, `advanced`
@@ -128,7 +128,7 @@ These are synthetic frontend checks; a real Homematic/device acceptance test rem
 1. Öffne **HACS → ⋮ → Benutzerdefinierte Repositories / Custom repositories**.
 2. Füge `https://github.com/Franz1302/frankys-stuff-climate-card` hinzu.
 3. Wähle den Typ **Dashboard** (HACS-Backend-Kategorie: `plugin`) und bestätige.
-4. Die Karte in HACS herunterladen (aktuell veröffentlichtes Release: **v0.2.5**).
+4. Die Karte in HACS herunterladen (Release: **v0.2.7**).
 5. Die JavaScript-Modul-Ressource lautet bei HACS-Installation gewöhnlich:
    `/hacsfiles/frankys-stuff-climate-card/frankys-stuff-climate-card.js`.
    Prüfe unter **Einstellungen → Dashboards → Ressourcen**, ob HACS sie bereits eingetragen hat. Nicht doppelt registrieren.
@@ -139,7 +139,7 @@ These are synthetic frontend checks; a real Homematic/device acceptance test rem
 
 1. Copy **`frankys-stuff-climate-card.js`** to `/config/www/frankys-stuff/climate/` on your Home Assistant installation. Create these folders if necessary.
 2. In Home Assistant, open **Settings → Dashboards → Resources** (the exact UI position may vary by version). Add:
-   - **URL:** `/local/frankys-stuff/climate/frankys-stuff-climate-card.js?v=0.2.5`
+   - **URL:** `/local/frankys-stuff/climate/frankys-stuff-climate-card.js?v=0.2.7`
    - **Type:** `JavaScript module` (`module`)
 3. Reload the browser. Add a new card using the visual editor or this YAML:
 
@@ -193,7 +193,7 @@ Optional profile-specific configuration keys: `language` (`auto`, `de`, `en`), `
 
 1. Die Datei **`frankys-stuff-climate-card.js`** nach `/config/www/frankys-stuff/climate/` kopieren (Ordner bei Bedarf anlegen).
 2. In Home Assistant unter **Einstellungen → Dashboards → Ressourcen** folgende Ressource registrieren:
-   - **URL:** `/local/frankys-stuff/climate/frankys-stuff-climate-card.js?v=0.2.5`
+   - **URL:** `/local/frankys-stuff/climate/frankys-stuff-climate-card.js?v=0.2.7`
    - **Typ:** `JavaScript-Modul` (`module`)
 3. Browser neu laden und diese Karte hinzufügen:
 
