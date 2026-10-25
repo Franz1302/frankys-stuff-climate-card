@@ -5,7 +5,7 @@
 })();
 
 /**
- * Frankys_Stuff Climate Card Standalone v0.2.7 — native HA schedule + stabilized touch dial
+ * Frankys_Stuff Climate Card Standalone v0.2.8 — native HA schedule + stabilized touch dial
  * Reusable 1000x640 climate control for Home Assistant. Keeps legacy custom element IDs.
  */
 const FrankysClimateScheduleEnglishErrors = {
