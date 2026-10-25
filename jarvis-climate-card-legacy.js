@@ -5,7 +5,7 @@
 })();
 
 /**
- * Frankys_Stuff Climate Card Standalone v0.2.7 — native HA schedule + stabilized touch dial
+ * Frankys_Stuff Climate Card Standalone v0.2.8 — native HA schedule + stabilized touch dial
  * Reusable 1000x640 climate control for Home Assistant. Keeps legacy custom element IDs.
  */
 const FrankysClimateScheduleEnglishErrors = {
@@ -136,6 +136,7 @@ class JarvisClimateCardLegacy extends HTMLElement {
   }
 
   getCardSize() { return 6; }
+  getGridOptions() { return { columns: 12, min_columns: 12, rows: "auto" }; }
   _state(id) { return id && this._hass && this._hass.states ? this._hass.states[id] : undefined; }
   _num(v, fallback = NaN) { const n = Number(v); return Number.isFinite(n) ? n : fallback; }
   _profile() { return (this._config && this._config.profile) || "pool_heatpump"; }
