@@ -21,6 +21,7 @@ jobs:
         with:
           ref: ${{ github.event.workflow_run.head_sha }}
           persist-credentials: false
+          fetch-depth: 0
       - name: Validate JavaScript and regression tests
         run: |
           node --check frankys-stuff-climate-card.js
