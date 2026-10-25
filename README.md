@@ -1,4 +1,4 @@
-# Frankys_Stuff Climate Card — Standalone v0.2.7 (HACS ready)
+# Frankys_Stuff Climate Card — Standalone v0.2.8 (HACS ready)
 
 <p align="center">
   <a href="https://ko-fi.com/Frankys_Stuff">
@@ -98,7 +98,7 @@ These are synthetic frontend checks; a real Homematic/device acceptance test rem
 
 **Installation:** Manuell oder über HACS als benutzerdefiniertes Dashboard-Repository. Die Karte benötigt keine zusätzlichen JavaScript-Bibliotheken.
 
-**Aktueller Stand / Current status:** v0.2.7 — optionale Modus-Aktionen / optional mode actions. [Release v0.2.7](https://github.com/Franz1302/frankys-stuff-climate-card/releases/tag/v0.2.7). **Lizenz / License:** MIT (`LICENSE`, `LICENSE_SCOPE.md`).
+**Aktueller Stand / Current status:** v0.2.8 — automatische Kartenhöhe in Abschnittsansichten / automatic Sections card height. [Release v0.2.8](https://github.com/Franz1302/frankys-stuff-climate-card/releases/tag/v0.2.8). **Lizenz / License:** MIT (`LICENSE`, `LICENSE_SCOPE.md`).
 
 **Features**
 - Profiles: `thermostat`, `pool_heatpump`, `advanced`
@@ -128,7 +128,7 @@ These are synthetic frontend checks; a real Homematic/device acceptance test rem
 1. Öffne **HACS → ⋮ → Benutzerdefinierte Repositories / Custom repositories**.
 2. Füge `https://github.com/Franz1302/frankys-stuff-climate-card` hinzu.
 3. Wähle den Typ **Dashboard** (HACS-Backend-Kategorie: `plugin`) und bestätige.
-4. Die Karte in HACS herunterladen (Release: **v0.2.7**).
+4. Die Karte in HACS herunterladen (Release: **v0.2.8**).
 5. Die JavaScript-Modul-Ressource lautet bei HACS-Installation gewöhnlich:
    `/hacsfiles/frankys-stuff-climate-card/frankys-stuff-climate-card.js`.
    Prüfe unter **Einstellungen → Dashboards → Ressourcen**, ob HACS sie bereits eingetragen hat. Nicht doppelt registrieren.
@@ -249,6 +249,11 @@ Die kleine Temperaturkurve zeigt **24 Stunden echte Recorder-Daten** auf einer Z
 **Copyright (c) 2026 Frankys_Stuff.** See `QA_REPORT.md` and `RELEASE_STATUS.md` for the reviewed release scope and limitations.
 
 ## Changelog
+
+**v0.2.8 (2026-10-25, layout fix)**
+- Home Assistant Sections: default 12-column width and automatic card height (`getGridOptions`) to prevent overlap with neighboring cards. Explicit dashboard row overrides still take priority.
+- Heating modes, schedules, temperature controls, and legacy aliases are unchanged.
+
 
 **v0.2.5 (2026-10-11, HACS release published)**
 - HACS plugin manifest `hacs.json` and automatic validation workflow available.
