@@ -1,4 +1,4 @@
-# Frankys_Stuff Climate Card — Standalone v0.2.7 (HACS ready)
+# Frankys_Stuff Climate Card — Standalone v0.2.8 (HACS ready)
 
 <p align="center">
   <a href="https://ko-fi.com/Frankys_Stuff">
@@ -20,6 +20,28 @@ A local Home Assistant Lovelace climate control card with a responsive HUD-style
 ### Visueller Karteneditor / Visual card editor
 
 ![Visueller Konfigurationseditor der Climate Card](climate-card-editor.jpeg)
+
+## v0.2.8 — Optionale externe Helfer im Thermostat-Profil
+
+Im visuellen Editor des Profils **Thermostat / Heizung** stehen jetzt zwei *optionale* Felder bereit:
+
+- **Betriebsart-Helfer** (`mode_entity`): `input_select` oder `select` mit den Optionen **AUS / AUTO / MANUELL** (englisch **OFF / AUTO / MANUAL**). Die linken Modustasten lesen und ändern den Helfer. Die bestehende Home-Assistant-Automation ist dafür verantwortlich, den Modus am Heizgerät umzusetzen.
+- **Solltemperatur-Helfer** (`target_entity`): `input_number` oder `number`. Drehkranz/Plus/Minus zeigen den Wert dieses Helfers an und schreiben Änderungen ausschließlich dorthin; vorhandene Automationen gleichen ihn mit dem Thermostat ab.
+
+Beispiel für eine Anlage mit bestehenden Backend-Automationen:
+
+```yaml
+type: custom:frankys-stuff-climate-card
+name: Schlafzimmer
+profile: thermostat
+display_entity: climate.bedroom
+mode_entity: input_select.bedroom_mode
+target_entity: input_number.bedroom_target
+```
+
+**Wichtig:** Die Helfer allein implementieren keine Heizungsregelung und keinen Automatik-Zeitplan. Sie müssen bereits von Home Assistant in konkrete Heizungsbefehle umgesetzt werden. Wer keine solchen Helfer hat, lässt beide Felder leer; **dann ändert sich nichts am bisherigen Kartenverhalten**. `mode_*_action` bleibt die vorrangige Option für bewusst festgelegte Sonderaktionen. Ohne geeigneten/erreichbaren Modus-Helfer wird kein Ersatzbefehl an die Heizung geschickt.
+
+Für einen manuellen Solltemperaturbetrieb muss die *Backend-Automation* die Temperaturregelung in MANUELL auch tatsächlich aktiv halten. Ein Helfer für sich allein schaltet keine Heizung ein.
 
 ## v0.2.6 – Thermostat AUTO mode
 
