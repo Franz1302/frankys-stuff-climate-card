@@ -1,0 +1,42 @@
+name: Publish Climate Card v0.2.8
+on:
+  workflow_run:
+    workflows: ["HACS Validation"]
+    branches: [main]
+    types: [completed]
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.event == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout verified commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          persist-credentials: false
+      - name: Validate JavaScript and regression tests
+        run: |
+          node --check frankys-stuff-climate-card.js
+          node tests/auto-mode.test.js
+          node tests/mode-actions.test.js
+      - name: Publish HACS release after verification
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERIFIED_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          if gh release view v0.2.8 --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release v0.2.8 already exists."
+            exit 0
+          fi
+          gh release create v0.2.8 \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$VERIFIED_SHA" \
+            --title "Frankys_Stuff Climate Card v0.2.8 — Responsive Sections Fix" \
+            --notes "Home Assistant Sections now receive a correct default 12-column width and automatic card height, preventing overlap with adjacent cards. Temperature control, modes, schedule behavior and legacy aliases are unchanged. Existing explicit dashboard grid_options.rows overrides still take precedence. Update the custom Dashboard repository in HACS."
