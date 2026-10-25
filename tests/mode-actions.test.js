@@ -28,7 +28,7 @@ function element() {
     const baseline = load(execFileSync('git',['show','3dd4a6428d3fcf75f64256ad0e26c55a2686cb97:' + file], { cwd: root, encoding:'utf8' })).Card;
     for (const profile of ['thermostat','advanced','pool_heatpump']) {
       for (const [mode,key] of [['AUS','mode_off_action'],['AUTO','mode_auto_action'],['MANUELL','mode_manual_action']]) {
-        const config = { profile, display_entity:'climate.example', heater_entity:'switch.example', off_script:'script.old_off', manual_script:'script.old_manual', mode_entity:'input_select.example', manual_entity:'input_boolean.example' };
+        const config = { profile, display_entity:'climate.example', heater_entity:'switch.example', off_script:'script.old_off', manual_script:'script.old_manual', mode_entity:profile === 'advanced' ? 'input_select.example' : '', manual_entity:'input_boolean.example' };
         for (const value of [undefined, null, '']) {
           const current = card(Card, { ...config, [key]:value }), old = card(baseline,config);
           await current.c._setMode(mode); await old.c._setMode(mode);
