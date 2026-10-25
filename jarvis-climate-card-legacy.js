@@ -385,15 +385,22 @@ class JarvisClimateCardLegacy extends HTMLElement {
   _mode() {
     const profile = this._profile();
 
-    if ((profile === "advanced" || profile === "thermostat") && this._config.mode_entity) {
-      const modeState = this._state(this._config.mode_entity);
-      const raw = String((modeState && modeState.state) || "").trim().toUpperCase();
+    if (profile === "advanced" && this._config.mode_entity) {
+      // Preserve the advanced profile's established helper parsing.
+      const state = this._state(this._config.mode_entity);
+      const raw = String((state && state.state) || "").toUpperCase();
+      if (raw.includes("MANU")) return "MANUELL";
+      if (raw.includes("AUTO")) return "AUTO";
+      if (raw.includes("AUS") || raw === "OFF") return "AUS";
+    }
+    if (profile === "thermostat" && this._config.mode_entity) {
+      const state = this._state(this._config.mode_entity);
+      const raw = String((state && state.state) || "").trim().toUpperCase();
       if (raw === "MANUELL" || raw === "MANUAL") return "MANUELL";
       if (raw === "AUTO") return "AUTO";
       if (raw === "AUS" || raw === "OFF") return "AUS";
-      // Configured helper is authoritative. Do not pretend "heat" means AUTO
-      // if the helper is unavailable or carries an unsupported mode.
-      if (profile === "thermostat") return "UNAVAILABLE";
+      // Fail closed: heater state must not mask an invalid external mode helper.
+      return "UNAVAILABLE";
     }
 
     const c = this._controlState();
