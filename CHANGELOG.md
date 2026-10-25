@@ -1,5 +1,13 @@
 # Changelog — Frankys_Stuff Climate Card
 
+## v0.2.8 — 2026-10-25 — optionale externe Modus-/Sollwert-Helfer
+
+- Im Profil `thermostat` zwei optionale, visuell auswählbare Helfer: `mode_entity` (`input_select`/`select`) und `target_entity` (`input_number`/`number`).
+- Modusbuttons lesen/setzen den Betriebsart-Helfer; die Solltemperatur wird über den Zahlen-Helfer angezeigt und gesetzt. Bestehende Automationen sind weiterhin für die eigentliche Regelung verantwortlich.
+- Keine stillen Climate-Fallbacks bei fehlendem Modus-Helfer. `mode_*_action` bleibt vorrangig. Der MANUELL-Modus ist mit externem Modus-Helfer auch ohne `heater_entity` wählbar.
+- Bestehender Thermostat-Betrieb ohne konfigurierte Helfer unverändert; Pool-/erweitertes Profil unverändert. Heizplan-Editor erkennt verknüpfte externe Helfer.
+- Regressionstests für beide JS-Dateien und die visuelle Editor-Erweiterung.
+
 ## v0.2.7 — 2026-10-24 — optionale Modus-Aktionen / optional mode actions
 
 - `mode_off_action`, `mode_auto_action`, `mode_manual_action`: optional script IDs or single HA service-action objects, replacing the selected mode button's default behavior in all profiles.
