@@ -46,9 +46,9 @@ function make(extra={}){
  const events=[];schedule.c.dispatchEvent=e=>events.push(e);
  assert(schedule.c._scheduleEnabled());
  schedule.c._openSchedule();assert.equal(events[0].detail.entityId,'schedule.plan');
- const noPlan=make();assert.equal(noPlan.c._scheduleEnabled(),false);
- assert(!/schedule\\/(create|update)/.test(source),'No schedule writes');
- assert(/history\\/history_during_period/.test(source),'24-hour Recorder query retained');
+ const noPlan=make();delete noPlan.states['schedule.plan'];assert.equal(noPlan.c._scheduleEnabled(),false);
+ assert(!source.includes('schedule/create')&&!source.includes('schedule/update'),'No schedule writes');
+ assert(source.includes('history/history_during_period'),'24-hour Recorder query retained');
  const render=make({heating_status_entity:'binary_sensor.heating'});
  render.c.shadowRoot={innerHTML:'',querySelector:()=>null,querySelectorAll:()=>[]};
  render.c._temperatureHistory=[];
