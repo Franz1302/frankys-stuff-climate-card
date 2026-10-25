@@ -5,7 +5,7 @@
 })();
 
 /**
- * Frankys_Stuff Climate Card Standalone v0.2.7 — native HA schedule + stabilized touch dial
+ * Frankys_Stuff Climate Card Standalone v0.2.8 — optional thermostat mode and target helpers
  * Reusable 1000x640 climate control for Home Assistant. Keeps legacy custom element IDs.
  */
 const FrankysClimateScheduleEnglishErrors = {
@@ -386,10 +386,21 @@ class JarvisClimateCardLegacy extends HTMLElement {
     const profile = this._profile();
 
     if (profile === "advanced" && this._config.mode_entity) {
-      const modeState = this._state(this._config.mode_entity); const raw = String((modeState && modeState.state) || "").toUpperCase();
+      // Preserve the advanced profile's established helper parsing.
+      const state = this._state(this._config.mode_entity);
+      const raw = String((state && state.state) || "").toUpperCase();
       if (raw.includes("MANU")) return "MANUELL";
       if (raw.includes("AUTO")) return "AUTO";
       if (raw.includes("AUS") || raw === "OFF") return "AUS";
+    }
+    if (profile === "thermostat" && this._config.mode_entity) {
+      const state = this._state(this._config.mode_entity);
+      const raw = String((state && state.state) || "").trim().toUpperCase();
+      if (raw === "MANUELL" || raw === "MANUAL") return "MANUELL";
+      if (raw === "AUTO") return "AUTO";
+      if (raw === "AUS" || raw === "OFF") return "AUS";
+      // Fail closed: heater state must not mask an invalid external mode helper.
+      return "UNAVAILABLE";
     }
 
     const c = this._controlState();
@@ -493,11 +504,29 @@ class JarvisClimateCardLegacy extends HTMLElement {
     const profile = this._profile();
 
     // SIMPLE THERMOSTAT:
-    // The climate entity owns target temperature, hysteresis and switching logic.
-    // A heater switch is optional and is used only for deliberate manual override.
+    // Without an external mode helper, preserve the existing thermostat logic.
+    // With an external helper, Home Assistant's backend owns mode transitions.
     if (profile === "thermostat") {
       const control = this._config.control_entity || this._config.display_entity;
       if (!control) return;
+      if (this._config.mode_entity) {
+        const id = this._config.mode_entity;
+        const domain = id.split(".")[0];
+        const state = this._state(id);
+        const aliases = { AUS: ["AUS", "OFF"], AUTO: ["AUTO"], MANUELL: ["MANUELL", "MANUAL"] }[mode] || [];
+        const options = state && state.attributes && state.attributes.options;
+        const option = Array.isArray(options) && options.find(
+          value => aliases.includes(String(value).trim().toUpperCase()));
+        if (!["input_select", "select"].includes(domain) ||
+            !state || ["unavailable", "unknown"].includes(state.state) || !option) {
+          this._error = this._lang() === "de" ? "MODUS-HELFER NICHT VERFÜGBAR" : "MODE HELPER UNAVAILABLE";
+          this._render();
+          return;
+        }
+        this._manualArmed = false;
+        if (state.state !== option) await this._call(domain, "select_option", { entity_id: id, option });
+        return;
+      }
 
       if (mode === "AUS") {
         this._manualArmed = false;
@@ -920,7 +949,7 @@ class JarvisClimateCardLegacy extends HTMLElement {
       const allowed = ["temperature", "block", "climate_entity", "target_entity", "mode_entity"];
       if (data.some(d => Object.keys(d).some(k => !allowed.includes(k)))) throw new Error("Der bestehende Plan enthält zusätzliche Daten und bleibt unverändert.");
       for (const key of ["target_entity", "mode_entity"]) {
-        const configured = this._profile() === "advanced" ? this._config[key] || "" : "";
+        const configured = ["advanced", "thermostat"].includes(this._profile()) ? this._config[key] || "" : "";
         if (data.some(d => (d[key] || "") && d[key] !== configured))
           throw new Error("Die Kartenkonfiguration passt nicht zur vorhandenen " + key + "-Zuordnung.");
       }
@@ -964,7 +993,7 @@ class JarvisClimateCardLegacy extends HTMLElement {
       const climate = this._scheduleClimate();
       if (!this._state(climate)) throw new Error("Bitte eine vorhandene Climate-Entität auswählen.");
       const mapping = { climate_entity: climate };
-      if (this._profile() === "advanced") {
+      if (["advanced", "thermostat"].includes(this._profile())) {
         for (const key of ["target_entity", "mode_entity"]) if (this._config[key]) mapping[key] = this._config[key];
       }
       const week = JarvisClimateCardLegacy._week(this._scheduleDraft, mapping);
@@ -1030,7 +1059,7 @@ class JarvisClimateCardLegacy extends HTMLElement {
         ${!(this._hass && this._hass.user && this._hass.user.is_admin) ? '<p>'+this._t("admin")+'</p>' : ""}
         ${this._scheduleError ? `<p class="error" role="alert">${esc(this._scheduleError)}</p>` : ""}
         <div class="actions"><button id="cancel" ${busy ? "disabled" : ""}>${this._t("cancel")}</button><button id="save" class="save" ${busy || !this._scheduleDraft || !(this._hass && this._hass.user && this._hass.user.is_admin) ? "disabled" : ""}>${this._t("save")}</button></div>
-        <div class="version">Frankys_Stuff Climate · v0.2.7</div>
+        <div class="version">Frankys_Stuff Climate · v0.2.8</div>
       </section>`;
     this.shadowRoot.querySelectorAll("input[data-field]").forEach(input => input.addEventListener("input", () => {
       this._scheduleDraft[input.dataset.group][Number(input.dataset.index)][input.dataset.field] = input.value;
@@ -1132,11 +1161,12 @@ class JarvisClimateCardLegacy extends HTMLElement {
     const name = this._config.name || "Klima";
     const profile = this._profile();
     const manualAvailable =
-      profile !== "thermostat" || Boolean(this._config.heater_entity) || this._hasModeAction("MANUELL");
+      profile !== "thermostat" || Boolean(this._config.heater_entity) ||
+      Boolean(this._config.mode_entity) || this._hasModeAction("MANUELL");
 
     const modeStroke = m => mode === m ? (m === "AUS" ? "#ff7a22" : "#18dfff") : "#507184";
     const modeText = m => mode === m ? (m === "AUS" ? "#ff9c46" : "#34e9ff") : "#9eb1bd";
-    const status = this._error ? this._error : this._pending ? this._t("sending") : (heaterUnavailable || heatingStatusUnavailable) ? this._t("unavailable") : heaterOn ? `${name.toUpperCase()} · ${this._t("active")}` : heatingStatusEntity && mode !== "AUS" ? `${name.toUpperCase()} · ${this._t("ready")}` : `${name.toUpperCase()} · ${this._t("off")}`;
+    const status = this._error ? this._error : this._pending ? this._t("sending") : (mode === "UNAVAILABLE" || heaterUnavailable || heatingStatusUnavailable) ? this._t("unavailable") : heaterOn ? `${name.toUpperCase()} · ${this._t("active")}` : heatingStatusEntity && mode !== "AUS" ? `${name.toUpperCase()} · ${this._t("ready")}` : `${name.toUpperCase()} · ${this._t("off")}`;
     const safeName = this._escape(name.toUpperCase());
     const safeStatus = this._escape(status);
     const safeScheduleInfo = this._escape(this._scheduleInfo());
@@ -1265,7 +1295,10 @@ const FrankysClimateEditorEnglish = {
   "Thermostat-Climate (Pflicht)": "Thermostat climate entity (required)",
   "Heizgerät / Switch (optional für MANUELL)": "Heating device / switch (optional for MANUAL)",
   "Heizstatus / Binärsensor (optional, nur Anzeige)": "Heating activity / binary sensor (optional, display only)",
+  "Betriebsart-Helfer (optional, externe Steuerung)": "Mode helper (optional, external control)",
+  "Solltemperatur-Helfer (optional, externe Steuerung)": "Target temperature helper (optional, external control)",
   "Climate auswählen und Karte speichern. Über das Uhrsymbol Zeiten und Temperaturen festlegen; der Heizplan wird automatisch angelegt. Der optionale Switch dient der manuellen Bedienung.": "Select a climate entity and save the card. Use the clock icon to set times and temperatures; the heating schedule is created automatically. The optional switch provides manual control.",
+  "Externe Helfer nur auswählen, wenn eine HA-Automation Modus und Sollwert bereits zum Thermostat überträgt. Ohne Helfer bleibt das bisherige Verhalten erhalten.": "Only select external helpers if a Home Assistant automation already applies their mode and target values to the thermostat. Otherwise leave the fields empty.",
   "Climate-Entität (optional)": "Climate entity (optional)",
   "Climate-Steuerentität (optional)": "Climate control entity (optional)",
   "Temperatursensor (optional)": "Temperature sensor (optional)",
@@ -1640,11 +1673,22 @@ class JarvisClimateCardLegacyEditor extends HTMLElement {
         "heating_status_entity",
         ["binary_sensor"]
       ));
+      add(this._picker(
+        this._t("Betriebsart-Helfer (optional, externe Steuerung)"),
+        "mode_entity",
+        ["input_select", "select"]
+      ));
+      add(this._picker(
+        this._t("Solltemperatur-Helfer (optional, externe Steuerung)"),
+        "target_entity",
+        ["input_number", "number"]
+      ));
 
       add(this._autoModeField());
 
       this.shadowRoot.querySelector("#hint").textContent =
-        this._t("Climate auswählen und Karte speichern. Über das Uhrsymbol Zeiten und Temperaturen festlegen; der Heizplan wird automatisch angelegt. Der optionale Switch dient der manuellen Bedienung.");
+        this._t("Climate auswählen und Karte speichern. Über das Uhrsymbol Zeiten und Temperaturen festlegen; der Heizplan wird automatisch angelegt. Der optionale Switch dient der manuellen Bedienung.") +
+        " " + this._t("Externe Helfer nur auswählen, wenn eine HA-Automation Modus und Sollwert bereits zum Thermostat überträgt. Ohne Helfer bleibt das bisherige Verhalten erhalten.");
 
     } else {
       add(this._picker(
