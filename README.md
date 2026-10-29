@@ -1,4 +1,4 @@
-# Frankys_Stuff Climate Card — Standalone v0.2.8 (HACS ready)
+# Frankys_Stuff Climate Card — Standalone v0.2.9 (HACS ready)
 
 <p align="center">
   <a href="https://ko-fi.com/Frankys_Stuff">
@@ -98,7 +98,7 @@ These are synthetic frontend checks; a real Homematic/device acceptance test rem
 
 **Installation:** Manuell oder über HACS als benutzerdefiniertes Dashboard-Repository. Die Karte benötigt keine zusätzlichen JavaScript-Bibliotheken.
 
-**Aktueller Stand / Current status:** v0.2.8 — automatische Kartenhöhe in Abschnittsansichten / automatic Sections card height. [Release v0.2.8](https://github.com/Franz1302/frankys-stuff-climate-card/releases/tag/v0.2.8). **Lizenz / License:** MIT (`LICENSE`, `LICENSE_SCOPE.md`).
+**Aktueller Stand / Current status:** v0.2.9 — optionaler Temperatursensor auch im Thermostat-Editor / optional temperature sensor also available in the thermostat editor. [Release v0.2.9](https://github.com/Franz1302/frankys-stuff-climate-card/releases/tag/v0.2.9). **Lizenz / License:** MIT (`LICENSE`, `LICENSE_SCOPE.md`).
 
 **Features**
 - Profiles: `thermostat`, `pool_heatpump`, `advanced`
@@ -128,7 +128,7 @@ These are synthetic frontend checks; a real Homematic/device acceptance test rem
 1. Öffne **HACS → ⋮ → Benutzerdefinierte Repositories / Custom repositories**.
 2. Füge `https://github.com/Franz1302/frankys-stuff-climate-card` hinzu.
 3. Wähle den Typ **Dashboard** (HACS-Backend-Kategorie: `plugin`) und bestätige.
-4. Die Karte in HACS herunterladen (Release: **v0.2.8**).
+4. Die Karte in HACS herunterladen (Release: **v0.2.9**).
 5. Die JavaScript-Modul-Ressource lautet bei HACS-Installation gewöhnlich:
    `/hacsfiles/frankys-stuff-climate-card/frankys-stuff-climate-card.js`.
    Prüfe unter **Einstellungen → Dashboards → Ressourcen**, ob HACS sie bereits eingetragen hat. Nicht doppelt registrieren.

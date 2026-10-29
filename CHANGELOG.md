@@ -1,5 +1,10 @@
 # Changelog — Frankys_Stuff Climate Card
 
+## v0.2.9 — 2026-10-29 — Thermostat temperature sensor picker
+
+- Show the existing optional `temperature_entity` sensor picker in the graphical thermostat-profile editor, using the existing DE/EN label.
+- Temperature reading, control actions, schedules, layout and other profiles are unchanged.
+
 ## v0.2.7 — 2026-10-24 — optionale Modus-Aktionen / optional mode actions
 
 - `mode_off_action`, `mode_auto_action`, `mode_manual_action`: optional script IDs or single HA service-action objects, replacing the selected mode button's default behavior in all profiles.
