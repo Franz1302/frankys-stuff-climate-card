@@ -1,4 +1,4 @@
-name: Publish Climate Card v0.2.8
+name: Publish Climate Card v0.2.9
 on:
   workflow_run:
     workflows: ["HACS Validation"]
@@ -32,12 +32,12 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           VERIFIED_SHA: ${{ github.event.workflow_run.head_sha }}
         run: |
-          if gh release view v0.2.8 --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            echo "Release v0.2.8 already exists."
+          if gh release view v0.2.9 --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release v0.2.9 already exists."
             exit 0
           fi
-          gh release create v0.2.8 \
+          gh release create v0.2.9 \
             --repo "$GITHUB_REPOSITORY" \
             --target "$VERIFIED_SHA" \
-            --title "Frankys_Stuff Climate Card v0.2.8 — Responsive Sections Fix" \
-            --notes "Home Assistant Sections now receive a correct default 12-column width and automatic card height, preventing overlap with adjacent cards. Temperature control, modes, schedule behavior and legacy aliases are unchanged. Existing explicit dashboard grid_options.rows overrides still take precedence. Update the custom Dashboard repository in HACS."
+            --title "Frankys_Stuff Climate Card v0.2.9 — Thermostat Sensor Picker" \
+            --notes "The graphical thermostat-profile editor now exposes the existing optional temperature_entity sensor picker. No YAML workaround is needed to select a separate room temperature sensor. Temperature reading, heating controls, modes, schedules, card layout and other profiles remain unchanged. JavaScript syntax, existing regression tests and HACS validation passed."

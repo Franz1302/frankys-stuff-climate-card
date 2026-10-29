@@ -5,7 +5,7 @@
 })();
 
 /**
- * Frankys_Stuff Climate Card Standalone v0.2.8 — native HA schedule + stabilized touch dial
+ * Frankys_Stuff Climate Card Standalone v0.2.9 — native HA schedule + stabilized touch dial
  * Reusable 1000x640 climate control for Home Assistant. Keeps legacy custom element IDs.
  */
 const FrankysClimateScheduleEnglishErrors = {
@@ -1640,6 +1640,12 @@ class JarvisClimateCardLegacyEditor extends HTMLElement {
         this._t("Heizstatus / Binärsensor (optional, nur Anzeige)"),
         "heating_status_entity",
         ["binary_sensor"]
+      ));
+
+      add(this._picker(
+        this._t("Temperatursensor (optional)"),
+        "temperature_entity",
+        ["sensor"]
       ));
 
       add(this._autoModeField());
