@@ -6,7 +6,7 @@
   </a>
 </p>
 
-[![HACS Custom Repository](https://img.shields.io/badge/HACS-Custom%20Repository-00AEEF?style=flat-square)](https://hacs.xyz/docs/faq/custom_repositories/)
+[![HACS](https://img.shields.io/badge/HACS-Default%20Repository-00AEEF?style=flat-square)](https://github.com/hacs/default/pull/11816)
 
 
 A local Home Assistant Lovelace climate control card with a responsive HUD-style dial, current/target temperatures, operating modes, optional schedule editor, and touch interaction.
@@ -96,7 +96,7 @@ These are synthetic frontend checks; a real Homematic/device acceptance test rem
 
 [frankys-stuff-climate-card.js](frankys-stuff-climate-card.js) — standalone JavaScript, no other runtime assets required.
 
-**Installation:** Manuell oder über HACS als benutzerdefiniertes Dashboard-Repository. Die Karte benötigt keine zusätzlichen JavaScript-Bibliotheken.
+**Installation:** In HACS nach **Frankys_Stuff Climate Card** suchen und herunterladen; alternativ ist die manuelle Installation möglich. Die Karte benötigt keine zusätzlichen JavaScript-Bibliotheken.
 
 **Aktueller Stand / Current status:** v0.2.9 — optionaler Temperatursensor auch im Thermostat-Editor / optional temperature sensor also available in the thermostat editor. [Release v0.2.9](https://github.com/Franz1302/frankys-stuff-climate-card/releases/tag/v0.2.9). **Lizenz / License:** MIT (`LICENSE`, `LICENSE_SCOPE.md`).
 
@@ -121,21 +121,23 @@ These are synthetic frontend checks; a real Homematic/device acceptance test rem
 - The v0.2.4 translation release passed syntax and language-switching tests. Version v0.2.5 adds HACS support; the HACS-managed resource has been observed in a Home Assistant installation, without an additional full functional test.
 
 
-## HACS (benutzerdefiniertes Repository / custom repository)
+## HACS
 
-**Status (2026-10-18):** The repository includes `hacs.json` and a passing automated HACS validation (8/8 checks). Release **v0.2.5** is published, and the HACS-managed JavaScript resource is registered in Home Assistant. A separate end-to-end functional installation test has not been documented. **This card is not listed in the official HACS catalogue**; add it as a custom Dashboard repository.
+Die Karte ist im **HACS-Standardkatalog** verfügbar. / This card is available in the **default HACS catalogue**.
 
-1. Öffne **HACS → ⋮ → Benutzerdefinierte Repositories / Custom repositories**.
-2. Füge `https://github.com/Franz1302/frankys-stuff-climate-card` hinzu.
-3. Wähle den Typ **Dashboard** (HACS-Backend-Kategorie: `plugin`) und bestätige.
-4. Die Karte in HACS herunterladen (Release: **v0.2.9**).
-5. Die JavaScript-Modul-Ressource lautet bei HACS-Installation gewöhnlich:
+**Status (2026-10-18):** The repository includes `hacs.json` and a passing automated HACS validation (8/8 checks). Release **v0.2.5** is published, and the HACS-managed JavaScript resource is registered in Home Assistant. A separate end-to-end functional installation test has not been documented.
+
+1. Öffne **HACS** und suche nach **Frankys_Stuff Climate Card**. / Open **HACS** and search for **Frankys_Stuff Climate Card**.
+2. Die Karte herunterladen (Release: **v0.2.9**). / Download the card (release: **v0.2.9**).
+3. Die JavaScript-Modul-Ressource lautet bei HACS-Installation gewöhnlich:
    `/hacsfiles/frankys-stuff-climate-card/frankys-stuff-climate-card.js`.
    Prüfe unter **Einstellungen → Dashboards → Ressourcen**, ob HACS sie bereits eingetragen hat. Nicht doppelt registrieren.
 
+**Alternative: benutzerdefiniertes Repository / custom repository:** Unter **HACS → ⋮ → Benutzerdefinierte Repositories / Custom repositories** die URL `https://github.com/Franz1302/frankys-stuff-climate-card` mit Typ **Dashboard** (HACS-Backend-Kategorie: `plugin`) hinzufügen. / Add this URL under **HACS → ⋮ → Custom repositories**, type **Dashboard**. For normal installation, use the HACS search above.
+
 **Existing manual installations / Bestehende manuelle Installationen:** Do not load both the manual `/local/...` JavaScript and the HACS `/hacsfiles/...` JavaScript on the same Home Assistant frontend. Keep an existing working manual resource unchanged unless you intentionally migrate to HACS, then switch resource registrations carefully. All previous `custom:jarvis-climate-card` aliases remain in the script.
 
-## English: installation
+## English: manual installation (alternative to HACS)
 
 1. Copy **`frankys-stuff-climate-card.js`** to `/config/www/frankys-stuff/climate/` on your Home Assistant installation. Create these folders if necessary.
 2. In Home Assistant, open **Settings → Dashboards → Resources** (the exact UI position may vary by version). Add:
@@ -189,7 +191,7 @@ Optional profile-specific configuration keys: `language` (`auto`, `de`, `en`), `
 - Custom element aliases `custom:jarvis-climate-card` and `custom:jarvis-climate-card-legacy` are included only to support existing setups. For new installations use `custom:frankys-stuff-climate-card`.
 - If changes do not appear, change the `?v=` resource suffix and reload the browser. Do not register multiple copies of this script under different URLs on the same HA frontend.
 
-## Deutsch: Installation
+## Deutsch: manuelle Installation (Alternative zu HACS)
 
 1. Die Datei **`frankys-stuff-climate-card.js`** nach `/config/www/frankys-stuff/climate/` kopieren (Ordner bei Bedarf anlegen).
 2. In Home Assistant unter **Einstellungen → Dashboards → Ressourcen** folgende Ressource registrieren:
