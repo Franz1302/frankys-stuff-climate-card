@@ -1,4 +1,4 @@
-# Frankys_Stuff Climate Card — Standalone v0.2.9 (HACS ready)
+# Frankys_Stuff Climate Card — Standalone v0.2.10 (HACS ready)
 
 <p align="center">
   <a href="https://ko-fi.com/Frankys_Stuff">
@@ -21,7 +21,7 @@ A local Home Assistant Lovelace climate control card with a responsive HUD-style
 
 ![Visueller Konfigurationseditor der Climate Card](climate-card-editor.jpeg)
 
-## Geplante Erweiterung — Optionale externe Helfer im Thermostat-Profil
+## v0.2.10 — Optionale externe Helfer im Thermostat-Profil
 
 Im visuellen Editor des Profils **Thermostat / Heizung** stehen jetzt zwei *optionale* Felder bereit:
 
@@ -120,7 +120,7 @@ These are synthetic frontend checks; a real Homematic/device acceptance test rem
 
 **Installation:** In HACS nach **Frankys_Stuff Climate Card** suchen und herunterladen; alternativ ist die manuelle Installation möglich. Die Karte benötigt keine zusätzlichen JavaScript-Bibliotheken.
 
-**Aktueller Stand / Current status:** v0.2.9 — optionaler Temperatursensor auch im Thermostat-Editor / optional temperature sensor also available in the thermostat editor. [Release v0.2.9](https://github.com/Franz1302/frankys-stuff-climate-card/releases/tag/v0.2.9). **Lizenz / License:** MIT (`LICENSE`, `LICENSE_SCOPE.md`).
+**Aktueller Stand / Current status:** v0.2.10 — optionale externe Betriebsart- und Solltemperatur-Helfer im Thermostat-Profil; Temperatursensor-Auswahl aus v0.2.9 bleibt erhalten. / Optional external thermostat mode and target helpers; v0.2.9 temperature sensor picker retained. [Release v0.2.10](https://github.com/Franz1302/frankys-stuff-climate-card/releases/tag/v0.2.10). **Lizenz / License:** MIT (`LICENSE`, `LICENSE_SCOPE.md`).
 
 **Features**
 - Profiles: `thermostat`, `pool_heatpump`, `advanced`
@@ -150,7 +150,7 @@ Die Karte ist im **HACS-Standardkatalog** verfügbar. / This card is available i
 **Status (2026-10-18):** The repository includes `hacs.json` and a passing automated HACS validation (8/8 checks). Release **v0.2.5** is published, and the HACS-managed JavaScript resource is registered in Home Assistant. A separate end-to-end functional installation test has not been documented.
 
 1. Öffne **HACS** und suche nach **Frankys_Stuff Climate Card**. / Open **HACS** and search for **Frankys_Stuff Climate Card**.
-2. Die Karte herunterladen (Release: **v0.2.9**). / Download the card (release: **v0.2.9**).
+2. Die Karte herunterladen (Release: **v0.2.10**). / Download the card (release: **v0.2.10**).
 3. Die JavaScript-Modul-Ressource lautet bei HACS-Installation gewöhnlich:
    `/hacsfiles/frankys-stuff-climate-card/frankys-stuff-climate-card.js`.
    Prüfe unter **Einstellungen → Dashboards → Ressourcen**, ob HACS sie bereits eingetragen hat. Nicht doppelt registrieren.

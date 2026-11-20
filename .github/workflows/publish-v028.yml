@@ -1,4 +1,4 @@
-name: Publish Climate Card v0.2.9
+name: Publish Climate Card v0.2.10
 on:
   workflow_run:
     workflows: ["HACS Validation"]
@@ -25,19 +25,29 @@ jobs:
       - name: Validate JavaScript and regression tests
         run: |
           node --check frankys-stuff-climate-card.js
+          node --check jarvis-climate-card-legacy.js
           node tests/auto-mode.test.js
           node tests/mode-actions.test.js
+          node tests/thermostat-helpers.test.js
       - name: Publish HACS release after verification
         env:
           GH_TOKEN: ${{ github.token }}
           VERIFIED_SHA: ${{ github.event.workflow_run.head_sha }}
         run: |
-          if gh release view v0.2.9 --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
-            echo "Release v0.2.9 already exists."
+          set -euo pipefail
+          CURRENT_MAIN_SHA="$(gh api "repos/$GITHUB_REPOSITORY/commits/main" --jq '.sha')"
+          if [ "$VERIFIED_SHA" != "$CURRENT_MAIN_SHA" ]; then
+            echo "Skipping superseded validation run: main moved."
             exit 0
           fi
-          gh release create v0.2.9 \
+          grep -q 'Standalone v0.2.10' frankys-stuff-climate-card.js
+          grep -q 'Standalone v0.2.10' jarvis-climate-card-legacy.js
+          if gh release view v0.2.10 --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release v0.2.10 already exists."
+            exit 0
+          fi
+          gh release create v0.2.10 \
             --repo "$GITHUB_REPOSITORY" \
             --target "$VERIFIED_SHA" \
-            --title "Frankys_Stuff Climate Card v0.2.9 — Thermostat Sensor Picker" \
-            --notes "The graphical thermostat-profile editor now exposes the existing optional temperature_entity sensor picker. No YAML workaround is needed to select a separate room temperature sensor. Temperature reading, heating controls, modes, schedules, card layout and other profiles remain unchanged. JavaScript syntax, existing regression tests and HACS validation passed."
+            --title "Frankys_Stuff Climate Card v0.2.10 — External Thermostat Helpers" \
+            --notes "Adds optional thermostat operating-mode and target-temperature helper selectors (mode_entity/target_entity) in the graphical editor. Configured mode helpers control AUS/AUTO/MANUELL, with no fallback commands when unavailable. Explicit mode actions still take priority. Existing thermostat configurations without helpers are unchanged. Retains the v0.2.9 temperature sensor selector. JavaScript regression tests and HACS validation passed."
