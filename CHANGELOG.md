@@ -1,6 +1,6 @@
 # Changelog — Frankys_Stuff Climate Card
 
-## Unreleased — Externe Betriebsart- und Solltemperatur-Helfer
+## v0.2.10 — 2026-11-20 — Externe Betriebsart- und Solltemperatur-Helfer
 
 - Thermostat-Profil: optionale Modus- und Sollwert-Helfer (`mode_entity`, `target_entity`) mit visueller Auswahl.
 - Externe Helfer werden nur benutzt, wenn konfiguriert; vorhandene Home-Assistant-Automationen steuern die Heizung.
