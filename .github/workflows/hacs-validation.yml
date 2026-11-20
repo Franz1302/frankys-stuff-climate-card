@@ -13,6 +13,16 @@ jobs:
   validate-hacs:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run JavaScript regression checks
+        run: |
+          node --check frankys-stuff-climate-card.js
+          node --check jarvis-climate-card-legacy.js
+          node tests/auto-mode.test.js
+          node tests/mode-actions.test.js
+          node tests/thermostat-helpers.test.js
       - name: Validate dashboard plugin for HACS
         uses: hacs/action@main
         with:

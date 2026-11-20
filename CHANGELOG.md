@@ -1,5 +1,13 @@
 # Changelog — Frankys_Stuff Climate Card
 
+## Unreleased — Externe Betriebsart- und Solltemperatur-Helfer
+
+- Thermostat-Profil: optionale Modus- und Sollwert-Helfer (`mode_entity`, `target_entity`) mit visueller Auswahl.
+- Externe Helfer werden nur benutzt, wenn konfiguriert; vorhandene Home-Assistant-Automationen steuern die Heizung.
+- Kein Heizungs-Fallback bei ungültigem Modus-Helfer; `mode_*_action` bleibt vorrangig.
+- Regressionstests für beide JavaScript-Einstiegspunkte und HACS-Validierung ergänzt.
+- Auf Basis von v0.2.9; der Temperatursensor-Picker bleibt erhalten.
+
 ## v0.2.9 — 2026-10-29 — Thermostat temperature sensor picker
 
 - Show the existing optional `temperature_entity` sensor picker in the graphical thermostat-profile editor, using the existing DE/EN label.
